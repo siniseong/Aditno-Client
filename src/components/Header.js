@@ -6,7 +6,11 @@ function Header() {
     <header>
       <div className="header-container">
         <div className="logo">
-          <img src="/images/logo.png" alt="Aditno" />
+          <img 
+            src="/images/logo.png" 
+            alt="Aditno" 
+            style={{ width: '32px', height: '30px' }}
+          />
         </div>
         <div className="nav-login">
           <nav className="nav">

@@ -101,7 +101,7 @@ function Find() {
 
 const registerButtonStyle = {
   textAlign: 'left',
-  padding: '50px 0 0 500px',  
+  padding: '50px 0 0 300px',  
   marginBottom: '-40px',
 };
  

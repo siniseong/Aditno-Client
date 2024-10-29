@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Header from './Header';
+import '../style.css';
 
 function Lost() {
   const [modalVisible, setModalVisible] = useState(false);
@@ -26,7 +27,7 @@ function Lost() {
         
         setItems(formattedData);
       } catch (error) {
-        console.error('데이터를 불러오는데 실패했습니다:', error);
+        console.error('어디선가 문제가 생겼습니다.', error);
       }
     };
 
@@ -34,6 +35,7 @@ function Lost() {
   }, []);
 
   const openModal = (item) => {
+    console.log('Clicked item:', item);
     setSelectedItem(item);
     setModalVisible(true);
   };
@@ -103,7 +105,7 @@ function Lost() {
 
 const registerButtonStyle = {
   textAlign: 'left',
-  padding: '50px 0 0 500px',  
+  padding: '50px 0 0 300px',  
   marginBottom: '-40px',
 };
 

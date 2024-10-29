@@ -53,7 +53,7 @@ h4 {
 }
 
 .pink {
-  color: #FFADE3;
+  color: #6184CA;
 }
 
 form {
@@ -74,7 +74,7 @@ form {
   width: 600px;
   height: 30px;
   border: none;
-  border-bottom: solid 2px #FFADE3;
+  border-bottom: solid 2px #6184CA;
   color: #000;
   font-family: Pretendard;
   font-size: 20px;
@@ -152,7 +152,7 @@ a {
   transform: translateX(-50%);
   margin-top: 133px;
   border-radius: 13px;
-  background: #FFADE3;
+  background: #6184CA;
   border: none;
 }
 
@@ -163,7 +163,7 @@ a {
   transform: translateX(-50%);
   margin-top: 96px;
   border-radius: 13px;
-  background: #FFADE3;
+  background: #6184CA;
   border: none;
 }
 
@@ -217,7 +217,7 @@ a {
   justify-content: center;
   align-items: center;
   border-radius: 13px;
-  background: #FFADE3;
+  background: #6184CA;
   color: #fff;
   margin-left: 53px;
   margin-right: 36px;
@@ -274,7 +274,7 @@ a {
 .tag > h6 {
   padding: 6px 13px 5px 13px;
   border-radius: 20px;
-  background-color: #FFADE3;
+  background-color: #6184CA;
   color: #fff;
   font-size: 15px;
   font-weight: 500;
@@ -302,7 +302,7 @@ a {
 .comment {
   margin: 20px 70px;
   border-radius: 25px 25px 25px 0px;
-  background: #FFBFE9;
+  background: #6184CA;
   display: flex;
   width: 291px;
   height: 43px;
@@ -317,13 +317,13 @@ a {
 }
 
 #move-b-p > a {
-  background-color: #FFADE3;
+  background-color: #6184CA;
   color: #FFF;
 }
 
 #move-b-b > a {
-  color: #FFADE3;
-  border: 2px solid #FFADE3;
+  color: #6184CA;
+  border: 2px solid #6184CA;
 }
 
 #move-b-p > a, #move-b-b > a {
@@ -381,7 +381,7 @@ a {
   justify-content: center;
   align-items: center;
   border-radius: 5px;
-  border: 2px dashed #FFADE3;
+  border: 2px dashed #6184CA;
   background: var(--White, #FFF);
   flex-direction: column;
   gap: 16px;
@@ -425,3 +425,47 @@ a {
 #m-lost {
   height: 800px;
 }
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-con {
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  width: 90%;
+  max-width: 800px;
+  position: relative;
+}
+
+.close {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  cursor: pointer;
+  font-size: 24px;
+}
+
+#modal-b {
+  padding: 20px;
+}
+
+#img-tag {
+  margin-bottom: 20px;
+}
+
+#img-tag img {
+  width: 100%;
+  max-height: 300px;
+  object-fit: cover;
+}
+
