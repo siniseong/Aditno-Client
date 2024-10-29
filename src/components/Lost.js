@@ -19,8 +19,8 @@ function Lost() {
           info: item.detail,
           location: item.location,
           tags: [item.location],
-          image: "./images/face.jpg",
-          imageText: "Related image",
+          image: "./images/picture.jpg",
+          imageText: "이미지가 존재하지 않습니다.",
           moreinfo: item.detail
         }));
         
