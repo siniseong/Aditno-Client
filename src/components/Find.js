@@ -4,22 +4,20 @@ import { Link } from 'react-router-dom';
 function Find() {
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null);
-  const [items, setItems] = useState([]); // API로 받아온 데이터를 저장할 상태
+  const [items, setItems] = useState([]);
 
-  // API 호출
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await fetch('https://port-0-uhditknow-backend-m0z0hcc2db07a95e.sel4.cloudtype.app/got');
         const data = await response.json();
         
-        // API 데이터를 우리의 형식에 맞게 변환
         const formattedData = data.map(item => ({
           id: item.id.toString(),
           title: item.title,
           info: item.detail,
-          tags: [item.location, item.time], // location과 time을 태그로 사용
-          image: "./images/temp.jpg", // 기본 이미지 사용
+          tags: [item.location, item.time],
+          image: "./images/temp.jpg",
           imageText: "Related image",
           moreinfo: item.detail
         }));
@@ -31,7 +29,7 @@ function Find() {
     };
 
     fetchData();
-  }, []); // 빈 배열을 넣어 컴포넌트가 마운트될 때만 실행
+  }, []);
 
   const openModal = (item) => {
     setSelectedItem(item);
@@ -52,22 +50,31 @@ function Find() {
           </div>
           <div className="nav-login">
             <nav className="nav">
-              <Link to="#"><h6>찾았다면/내꺼라면</h6></Link>
-              <Link to="#"><h6>여기있어요</h6></Link>
+              <Link to="/found"><h6>찾았다면/내꺼라면</h6></Link>
+              <Link to="/here"><h6>여기있어요</h6></Link>
             </nav>
             <div className="login">
-              <Link to="#"><h6>로그인</h6></Link>
+              <Link to="/login"><h6>로그인</h6></Link>
             </div>
           </div>
         </div>
       </header>
       <main>
+        <div className="register-button" style={registerButtonStyle}>
+          <Link to="/find-form" style={linkStyle}>
+            ✏️ 등록하기
+          </Link>
+        </div>
         <div className="move-b">
-          <div id="move-b-p"><Link to="#"><h5>분실물을 찾았어요.</h5></Link></div>
-          <div id="move-b-b"><Link to="/lost"><h5>분실물을 잃어버렸어요.</h5></Link></div>
+          <div id="move-b-p">
+            <Link to="/find"><h5>분실물을 찾았어요.</h5></Link>
+          </div>
+          <div id="move-b-b">
+            <Link to="/lost"><h5>분실물을 잃어버렸어요.</h5></Link>
+          </div>
         </div>
         <div id="find-list">
-          {items.map(item => ( // temp 대신 items 사용
+          {items.map(item => (
             <div key={item.id} className="container-l-f" onClick={() => openModal(item)}>
               <div className="info">
                 <h4>{item.title}</h4>
@@ -105,5 +112,17 @@ function Find() {
     </div>
   );
 }
+
+const registerButtonStyle = {
+  textAlign: 'right',
+  padding: '20px 50px',
+};
+
+const linkStyle = {
+  textDecoration: 'none',
+  color: '#333',
+  fontSize: '1.1rem',
+  fontWeight: '500',
+};
 
 export default Find;

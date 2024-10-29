@@ -1,48 +1,36 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
 function Lost() {
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null);
+  const [items, setItems] = useState([]);
 
-  const temp = [
-    {
-      id: "1",
-      title: "에어팟 프로 오른쪽을 잃어버렸어요.",
-      info: "에어팟 프로 2세대 오른쪽을 잃어버렸어요.",
-      tags: ["1층", "에어팟", "2학년 4반 신희성"],
-      image: "./images/temp.jpg",
-      imageText: "Related image",
-      moreinfo: "SRC 1층에서 에어팟 오른쪽 하나를 잃어버렸어요 흰색이에요"
-    },
-    {
-      id: "2",
-      title: "에어팟 프로 오른쪽을 잃어버렸어요.",
-      info: "에어팟 프로 2세대 오른쪽을 잃어버렸어요.",
-      tags: ["1층", "에어팟", "2학년 4반 신희성"],
-      image: "./images/temp.jpg",
-      imageText: "Related image",
-      moreinfo: "SRC 1층에서 에어팟 오른쪽 하나를 잃어버렸어요 흰색이에요"
-    },
-    {
-      id: "3",
-      title: "에어팟 프로 오른쪽을 잃어버렸어요.",
-      info: "에어팟 프로 2세대 오른쪽을 잃어버렸어요.",
-      tags: ["1층", "에어팟", "2학년 4반 신희성"],
-      image: "./images/temp.jpg",
-      imageText: "Related image",
-      moreinfo: "SRC 1층에서 에어팟 오른쪽 하나를 잃어버렸어요 흰색이에요"
-    },
-    {
-      id: "4",
-      title: "에어팟 프로 오른쪽을 잃어버렸어요.",
-      info: "에어팟 프로 2세대 오른쪽을 잃어버렸어요.",
-      tags: ["1층", "에어팟", "2학년 4반 신희성"],
-      image: "./images/temp.jpg",
-      imageText: "Related image",
-      moreinfo: "SRC 1층에서 에어팟 오른쪽 하나를 잃어버렸어요 흰색이에요"
-    }
-  ];
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch('https://port-0-uhditknow-backend-m0z0hcc2db07a95e.sel4.cloudtype.app/lookingfor');
+        const data = await response.json();
+        
+        const formattedData = data.map(item => ({
+          id: item.id.toString(),
+          title: item.title,
+          info: item.detail,
+          location: item.location,
+          tags: [item.location],
+          image: "./images/temp.jpg",
+          imageText: "Related image",
+          moreinfo: item.detail
+        }));
+        
+        setItems(formattedData);
+      } catch (error) {
+        console.error('데이터를 불러오는데 실패했습니다:', error);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   const openModal = (item) => {
     setSelectedItem(item);
@@ -73,6 +61,11 @@ function Lost() {
         </div>
       </header>
       <main>
+        <div className="register-button" style={registerButtonStyle}>
+          <Link to="/lost-form" style={linkStyle}>
+            ✏️ 등록하기
+          </Link>
+        </div>
         <div className="move-b">
           <div id="move-b-b">
             <Link to="/find"><h5>분실물을 찾았어요.</h5></Link>
@@ -82,7 +75,7 @@ function Lost() {
           </div>
         </div>
         <div id="lost-list">
-          {temp.map(item => (
+          {items.map(item => (
             <div key={item.id} className="container-l-f" onClick={() => openModal(item)}>
               <div className="info">
                 <h4>{item.title}</h4>
@@ -120,5 +113,17 @@ function Lost() {
     </div>
   );
 }
+
+const registerButtonStyle = {
+  textAlign: 'right',
+  padding: '20px 50px',
+};
+
+const linkStyle = {
+  textDecoration: 'none',
+  color: '#333',
+  fontSize: '1.1rem',
+  fontWeight: '500',
+};
 
 export default Lost;

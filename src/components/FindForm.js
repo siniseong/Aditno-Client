@@ -21,10 +21,6 @@ function FindForm() {
         </div>
       </header>
       <main>
-        <div className="move-b">
-          <div id="move-b-p"><Link to="#"><h5>분실물을 찾았어요.</h5></Link></div>
-          <div id="move-b-b"><Link to="/lost-form"><h5>분실물을 잃어버렸어요.</h5></Link></div>
-        </div>
         <form>
           <div className="form">
             <h3><span className="pink">1. </span>제목을 입력해주세요.</h3>
