@@ -40,10 +40,26 @@ function FindForm() {
               <img id="image-preview" src="" alt="업로드된 이미지" />
             </div>
           </div>
+          <div className="submit-button">
+            <button type="submit" style={submitButtonStyle}>등록하기</button>
+          </div>
         </form>
       </main>
     </div>
   );
 }
+
+const submitButtonStyle = {
+  width: '610px',
+  padding: '18px 0',
+  marginTop: '50px',
+  borderRadius: '13px',
+  backgroundColor: '#6184CA',
+  color: '#FFF',
+  border: 'none',
+  fontSize: '18px',
+  fontWeight: '500',
+  cursor: 'pointer',
+};
 
 export default FindForm;
