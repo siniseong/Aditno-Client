@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 function Lost() {
   const [modalVisible, setModalVisible] = useState(false);
@@ -62,19 +63,23 @@ function Lost() {
           </div>
           <div className="nav-login">
             <nav className="nav">
-              <a href="#"><h6>찾았다면/내꺼라면</h6></a>
-              <a href="#"><h6>여기있어요</h6></a>
+              <Link to="/found"><h6>찾았다면/내꺼라면</h6></Link>
+              <Link to="/here"><h6>여기있어요</h6></Link>
             </nav>
             <div className="login">
-              <a href="#"><h6>로그인</h6></a>
+              <Link to="/login"><h6>로그인</h6></Link>
             </div>
           </div>
         </div>
       </header>
       <main>
         <div className="move-b">
-          <div id="move-b-b"><a href="/find"><h5>분실물을 찾았어요.</h5></a></div>
-          <div id="move-b-p"><a href="#"><h5>분실물을 잃어버렸어요.</h5></a></div>
+          <div id="move-b-b">
+            <Link to="/find"><h5>분실물을 찾았어요.</h5></Link>
+          </div>
+          <div id="move-b-p">
+            <Link to="/lost"><h5>분실물을 잃어버렸어요.</h5></Link>
+          </div>
         </div>
         <div id="lost-list">
           {temp.map(item => (
@@ -100,7 +105,9 @@ function Lost() {
             <div id="modal-b">
               <div id="img-tag">
                 <img src={selectedItem.image} alt={selectedItem.imageText} className="img" />
-                <div className="tags">{selectedItem.tags.map(tag => <div className="tag" key={tag}><h6>{tag}</h6></div>)}</div>
+                <div className="tags">
+                  {selectedItem.tags.map(tag => <div className="tag" key={tag}><h6>{tag}</h6></div>)}
+                </div>
               </div>
               <h4 id="title">{selectedItem.title}</h4>
               <p id="info">{selectedItem.info}</p>
