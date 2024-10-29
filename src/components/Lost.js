@@ -19,7 +19,7 @@ function Lost() {
           info: item.detail,
           location: item.location,
           tags: [item.location],
-          image: "./images/temp.jpg",
+          image: "./images/face.jpg",
           imageText: "Related image",
           moreinfo: item.detail
         }));

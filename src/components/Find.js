@@ -18,7 +18,7 @@ function Find() {
           title: item.title,
           info: item.detail,
           tags: [item.location, item.time],
-          image: "./images/temp.jpg",
+          image: "./images/face.jpg",
           imageText: "Related image",
           moreinfo: item.detail
         }));
