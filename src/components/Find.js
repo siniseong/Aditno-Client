@@ -100,10 +100,11 @@ function Find() {
 }
 
 const registerButtonStyle = {
-  textAlign: 'right',
-  padding: '20px 50px',
+  textAlign: 'left',
+  padding: '50px 0 0 500px',  
+  marginBottom: '-40px',
 };
-
+ 
 const linkStyle = {
   textDecoration: 'none',
   color: '#333',

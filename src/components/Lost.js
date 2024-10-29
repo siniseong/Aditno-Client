@@ -52,6 +52,7 @@ function Lost() {
             ✏️ 등록하기
           </Link>
         </div>
+        
         <div className="move-b">
           <div id="move-b-b">
             <Link to="/find"><h5>분실물을 찾았어요.</h5></Link>
@@ -101,8 +102,9 @@ function Lost() {
 }
 
 const registerButtonStyle = {
-  textAlign: 'right',
-  padding: '20px 50px',
+  textAlign: 'left',
+  padding: '50px 0 0 500px',  
+  marginBottom: '-40px',
 };
 
 const linkStyle = {
