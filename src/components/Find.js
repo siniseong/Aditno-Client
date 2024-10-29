@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import Header from './Header';
 
 function Find() {
   const [modalVisible, setModalVisible] = useState(false);
@@ -43,22 +44,7 @@ function Find() {
 
   return (
     <div>
-      <header>
-        <div className="header-container">
-          <div className="logo">
-            <img src="/images/logo.png" alt="Aditno" />
-          </div>
-          <div className="nav-login">
-            <nav className="nav">
-              <Link to="/found"><h6>찾았다면/내꺼라면</h6></Link>
-              <Link to="/here"><h6>여기있어요</h6></Link>
-            </nav>
-            <div className="login">
-              <Link to="/login"><h6>로그인</h6></Link>
-            </div>
-          </div>
-        </div>
-      </header>
+      <Header />
       <main>
         <div className="register-button" style={registerButtonStyle}>
           <Link to="/find-form" style={linkStyle}>
