@@ -82,9 +82,36 @@ function Find() {
             <span className="close" onClick={closeModal}>&times;</span>
             <div id="modal-b">
               <div id="img-tag">
-                <img src={selectedItem.image} alt={selectedItem.imageText} className="img" />
+                <img 
+                  src={selectedItem.image} 
+                  alt={selectedItem.imageText} 
+                  className="img" 
+                  style={{ 
+                    maxWidth: '400px',
+                    maxHeight: '400px',
+                    objectFit: 'contain'
+                  }} 
+                />
                 <div className="tags">
-                  {selectedItem.tags.map(tag => <div className="tag" key={tag}><h6>{tag}</h6></div>)}
+                  {selectedItem.tags.map(tag => (
+                    <div 
+                      className="tag" 
+                      key={tag}
+                      style={{
+                        minWidth: '120px',
+                        maxWidth: '200px',
+                        padding: '5px 15px',
+                        borderRadius: '20px',
+                        backgroundColor: '#6184CA',
+                        color: 'white',
+                        margin: '5px',
+                        display: 'inline-block',
+                        textAlign: 'center'
+                      }}
+                    >
+                      <h6 style={{ margin: 0 }}>{tag}</h6>
+                    </div>
+                  ))}
                 </div>
               </div>
               <h4 id="title">{selectedItem.title}</h4>
