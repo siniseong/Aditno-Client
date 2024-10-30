@@ -1,7 +1,20 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Header from './Header';
 
 function LostForm() {
+  const [tags, setTags] = useState([]);
+  const [tagInput, setTagInput] = useState('');
+
+  const handleKeyDown = (e) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      if (tagInput.trim() !== '') {
+        setTags([...tags, tagInput.trim()]);
+        setTagInput('');
+      }
+    }
+  };
+
   return (
     <div>
       <Header />
@@ -17,12 +30,24 @@ function LostForm() {
           </div>
           <div className="form">
             <h3><span className="pink">3. </span>키워드를 입력해주세요.</h3>
-            <input id="tagsIn" className="textbox" type="text" placeholder="ex) 에어팟 / 흰색 / 스티커" />
-            <div id="tags" className="tags">
-              <div className="tag"><h6>에어팟</h6></div>
-              <div className="tag"><h6>흰색</h6></div>
-              <div className="tag"><h6>스티커</h6></div>
-            </div>
+            <input 
+              id="tagsIn" 
+              className="textbox" 
+              type="text" 
+              placeholder="키워드를 입력하고 Enter를 눌러주세요" 
+              value={tagInput}
+              onChange={(e) => setTagInput(e.target.value)}
+              onKeyDown={handleKeyDown}
+            />
+            {tags.length > 0 && (
+              <div id="tags" className="tags">
+                {tags.map((tag, index) => (
+                  <div className="tag" key={index}>
+                    <h6>{tag}</h6>
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
           <div className="form">
             <h3><span className="pink">4. </span>잃어버린 장소를 알려주세요.</h3>
