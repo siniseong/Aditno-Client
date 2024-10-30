@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Header from './Header';
 
 function Here() {
+  const navigate = useNavigate();
   const [sensorData, setSensorData] = useState(null);
   const [error, setError] = useState(false);
 
@@ -26,10 +28,26 @@ function Here() {
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
-    height: '100vh',
+    height: 'calc(100vh - 50px)', 
     fontSize: '50px',
     fontWeight: 'bold',
-    color: '#000'
+    color: '#000',
+    marginTop: '-50px'
+  };
+
+  const buttonStyle = {
+    width: '200px',  
+    height: '50px',  
+    fontSize: '20px',
+    backgroundColor: '#6184CA',
+    color: 'white',
+    border: 'none',
+    borderRadius: '10px',
+    cursor: 'pointer',
+    marginTop: '50px',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center'
   };
 
   return (
@@ -45,6 +63,12 @@ function Here() {
             style={{ marginBottom: '20px' }}
           />
           이런! 데이터가 존재하지 않습니다.
+          <button 
+            onClick={() => navigate('/find')}
+            style={buttonStyle}
+          >
+            홈으로 돌아가기
+          </button>
         </div>
       ) : (
         sensorData && (
