@@ -21,7 +21,7 @@ function Here() {
     fetchData();
   }, []);
 
-  const errorStyle = {
+  const messageStyle = {
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'center',
@@ -36,7 +36,7 @@ function Here() {
     <div>
       <Header />
       {error ? (
-        <div style={errorStyle}>
+        <div style={messageStyle}>
           <img 
             src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Smilies/Anxious%20Face%20with%20Sweat.png" 
             alt="Anxious Face with Sweat" 
@@ -48,7 +48,31 @@ function Here() {
         </div>
       ) : (
         sensorData && (
-          <pre>{JSON.stringify(sensorData, null, 2)}</pre>
+          <div style={messageStyle}>
+            {sensorData.status === 0 ? (
+              <>
+                <img 
+                  src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Objects/Open%20Mailbox.png" 
+                  alt="Empty Locker" 
+                  width="200" 
+                  height="200" 
+                  style={{ marginBottom: '20px' }}
+                />
+                사물함이 비어있습니다.
+              </>
+            ) : (
+              <>
+                <img 
+                  src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Objects/Package.png" 
+                  alt="Full Locker" 
+                  width="200" 
+                  height="200" 
+                  style={{ marginBottom: '20px' }}
+                />
+                사물함에 물건이 있습니다.
+              </>
+            )}
+          </div>
         )
       )}
     </div>
