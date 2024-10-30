@@ -4,6 +4,7 @@ import Lost from './components/Lost';
 import LostForm from './components/LostForm';
 import Find from './components/Find';
 import FindForm from './components/FindForm';
+import Here from './components/Here';
 
 function App() {
   return (
@@ -11,9 +12,10 @@ function App() {
       <Routes>
         <Route path="/" element={<Lost />} />
         <Route path="/lost" element={<Lost />} />
-        <Route path="/lost-form" element={<LostForm />} />
+        <Route path="/lostform" element={<LostForm />} />
         <Route path="/find" element={<Find />} />
-        <Route path="/find-form" element={<FindForm />} />
+        <Route path="/findform" element={<FindForm />} />
+        <Route path="/here" element={<Here />} />
       </Routes>
     </Router>
   );

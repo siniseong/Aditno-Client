@@ -50,7 +50,7 @@ function Lost() {
       <Header />
       <main>
         <div className="register-button" style={registerButtonStyle}>
-          <Link to="/lost-form" style={linkStyle}>
+          <Link to="/lostform" style={linkStyle}>
             ✏️ 등록하기
           </Link>
         </div>

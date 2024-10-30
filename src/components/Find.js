@@ -47,7 +47,7 @@ function Find() {
       <Header />
       <main>
         <div className="register-button" style={registerButtonStyle}>
-          <Link to="/find-form" style={linkStyle}>
+          <Link to="/findform" style={linkStyle}>
             ✏️ 등록하기
           </Link>
         </div>
