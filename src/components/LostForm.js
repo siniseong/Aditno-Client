@@ -1,10 +1,25 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Header from './Header';
 
 function LostForm() {
+  const navigate = useNavigate();
   const [tags, setTags] = useState([]);
   const [tagInput, setTagInput] = useState('');
   const [imagePreview, setImagePreview] = useState('');
+  const [formData, setFormData] = useState({
+    title: '',
+    location: '',
+    detail: ''
+  });
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
 
   const handleKeyDown = (e) => {
     if (e.key === 'Enter') {
@@ -53,18 +68,61 @@ function LostForm() {
     document.getElementById('file-input').click();
   };
 
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    
+    if (!formData.title || !formData.location || !formData.detail) {
+      alert('모든 필드를 입력해주세요.');
+      return;
+    }
+
+    try {
+      const response = await fetch('https://port-0-uhditknow-backend-m0z0hcc2db07a95e.sel4.cloudtype.app/lookingfor/add', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData)
+      });
+
+      if (!response.ok) {
+        throw new Error('등록에 실패했습니다.');
+      }
+
+      alert('성공적으로 등록되었습니다!');
+      navigate('/lost');
+    } catch (error) {
+      console.error('Error:', error);
+      alert('등록 중 오류가 발생했습니다.');
+    }
+  };
+
   return (
     <div>
       <Header />
       <main>
-        <form>
+        <form onSubmit={handleSubmit}>
           <div className="form">
             <h3><span className="pink">1. </span>제목을 입력해주세요.</h3>
-            <input className="textbox" type="text" placeholder="ex) SRC 1층에서 에어팟을 잃어버렸어요." />
+            <input 
+              className="textbox" 
+              type="text" 
+              name="title"
+              value={formData.title}
+              onChange={handleInputChange}
+              placeholder="ex) SRC 1층에서 에어팟을 잃어버렸어요." 
+            />
           </div>
           <div className="form">
             <h3><span className="pink">2. </span>소제목을 입력해주세요.</h3>
-            <input className="textbox" type="text" placeholder="ex) 에어팟을 찾았는데 포켓몬 피카츄 스티커 붙여져있어요." />
+            <input 
+              className="textbox" 
+              type="text" 
+              name="location"
+              value={formData.location}
+              onChange={handleInputChange}
+              placeholder="ex) 에어팟을 찾았는데 포켓몬 피카츄 스티커 붙여져있어요." 
+            />
           </div>
           <div className="form">
             <h3><span className="pink">3. </span>키워드를 입력해주세요.</h3>
@@ -95,7 +153,14 @@ function LostForm() {
           </div>
           <div className="form">
             <h3><span className="pink">4. </span>잃어버린 장소를 알려주세요.</h3>
-            <input className="textbox" type="text" placeholder="ex) 도서관" />
+            <input 
+              className="textbox" 
+              type="text" 
+              name="detail"
+              value={formData.detail}
+              onChange={handleInputChange}
+              placeholder="ex) 도서관" 
+            />
           </div>
           <div className="form">
             <h3><span className="pink">5. </span>사진을 첨부해주세요.</h3>

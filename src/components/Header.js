@@ -14,8 +14,7 @@ function Header() {
         </div>
         <div className="nav-login">
           <nav className="nav">
-            <Link to="/find"><h6>찾았다면/내꺼라면</h6></Link>
-            <Link to="/lost"><h6>잃어버렸다면</h6></Link>
+            <Link to="/find"><h6>홈</h6></Link>
             <Link to="/here"><h6>여기있어요</h6></Link>
           </nav>
           <div className="login">
