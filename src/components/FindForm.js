@@ -10,7 +10,8 @@ function FindForm() {
   const [formData, setFormData] = useState({
     title: '',
     location: '',
-    detail: ''
+    detail: '',
+    time: ''
   });
 
   const handleInputChange = (e) => {
@@ -71,7 +72,7 @@ function FindForm() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     
-    if (!formData.title || !formData.location || !formData.detail) {
+    if (!formData.title || !formData.location || !formData.detail || !formData.time) {
       alert('모든 필드를 입력해주세요.');
       return;
     }
@@ -152,7 +153,17 @@ function FindForm() {
             )}
           </div>
           <div className="form">
-            <h3><span className="pink">4. </span>세부 설명을 입력해주세요.</h3>
+            <h3><span className="pink">4. </span>날짜를 입력해주세요.</h3>
+            <input 
+              className="textbox" 
+              type="date" 
+              name="time"
+              value={formData.time}
+              onChange={handleInputChange}
+            />
+          </div>
+          <div className="form">
+            <h3><span className="pink">5. </span>세부 설명을 입력해주세요.</h3>
             <input 
               className="textbox" 
               type="text" 
@@ -163,7 +174,7 @@ function FindForm() {
             />
           </div>
           <div className="form">
-            <h3><span className="pink">5. </span>사진을 첨부해주세요.</h3>
+            <h3><span className="pink">6. </span>사진을 첨부해주세요.</h3>
             <div 
               id="drop-area" 
               style={dropAreaStyle}
