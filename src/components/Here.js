@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Header from './Header';
+import LockerModel from './LockerModel';
 
 function Here() {
   const navigate = useNavigate();
@@ -68,6 +69,15 @@ function Here() {
     alignItems: 'center'
   };
 
+  const modelContainerStyle = {
+    width: '100%',
+    height: '400px',
+    marginBottom: '20px',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center'
+  };
+
   return (
     <div>
       <Header />
@@ -91,32 +101,21 @@ function Here() {
       ) : (
         sensorData && (
           <div style={messageStyle}>
+            <div style={modelContainerStyle}>
+              <LockerModel status={sensorData.status} />
+            </div>
             {Number(sensorData.status) === 0 ? (
               <>
-                <img 
-                  src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Objects/Open%20Mailbox%20with%20Lowered%20Flag.png" 
-                  alt="Empty Locker" 
-                  width="200" 
-                  height="200" 
-                  style={{ marginBottom: '20px' }}
-                />
-                사물함이 비어있습니다.
+                <p>사물함이 비어있습니다.</p>
                 <div style={statusTextStyle}>
-                  {`status: ${sensorData.status} (사물함이 비어있어요.)`}
+                  {`status: ${sensorData.status} (빈 사물함입니다.)`}
                 </div>
               </>
             ) : (
               <>
-                <img 
-                  src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Objects/Package.png" 
-                  alt="Full Locker" 
-                  width="200" 
-                  height="200" 
-                  style={{ marginBottom: '20px' }}
-                />
-                사물함에 물건이 있습니다.
+                <p>사물함에 물건이 있습니다.</p>
                 <div style={statusTextStyle}>
-                  {`status: ${sensorData.status} (사물함에 물건이 있어요.)`}
+                  {`status: ${sensorData.status} (물건이 존재하는 사물함입니다.)`}
                 </div>
               </>
             )}
