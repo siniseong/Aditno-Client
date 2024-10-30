@@ -4,7 +4,7 @@
 ### 프로젝트 시작
     https://github.com/CRUISETEAM/Aditno-Client.git
     npm install
-    npm run start
+    npm run start 
 
 ### 커밋 규칙
 
