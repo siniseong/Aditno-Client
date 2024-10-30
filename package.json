@@ -2,6 +2,7 @@
   "name": "aditno",
   "version": "0.1.0",
   "private": true,
+  "proxy": "https://port-0-prototype-m0p6660zb070e43c.sel4.cloudtype.app",
   "dependencies": {
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",

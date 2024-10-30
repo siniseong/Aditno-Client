@@ -10,8 +10,20 @@ function Here() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch('https://port-0-prototype-m0p6660zb070e43c.sel4.cloudtype.app/sensor/status');
+        const response = await fetch('/sensor/status', {
+          method: 'GET',
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+          },
+        });
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
         const data = await response.json();
+        console.log('Received sensor data:', data);
         setSensorData(data);
         setError(false);
       } catch (error) {
@@ -33,6 +45,12 @@ function Here() {
     fontWeight: 'bold',
     color: '#000',
     marginTop: '-50px'
+  };
+
+  const statusTextStyle = {
+    fontSize: '20px',
+    color: '#666',
+    marginTop: '10px'
   };
 
   const buttonStyle = {
@@ -73,16 +91,19 @@ function Here() {
       ) : (
         sensorData && (
           <div style={messageStyle}>
-            {sensorData.status === 0 ? (
+            {Number(sensorData.status) === 0 ? (
               <>
                 <img 
-                  src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Objects/Open%20Mailbox.png" 
+                  src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Objects/Open%20Mailbox%20with%20Lowered%20Flag.png" 
                   alt="Empty Locker" 
                   width="200" 
                   height="200" 
                   style={{ marginBottom: '20px' }}
                 />
                 사물함이 비어있습니다.
+                <div style={statusTextStyle}>
+                  {`status: ${sensorData.status} (사물함이 비어있어요.)`}
+                </div>
               </>
             ) : (
               <>
@@ -94,6 +115,9 @@ function Here() {
                   style={{ marginBottom: '20px' }}
                 />
                 사물함에 물건이 있습니다.
+                <div style={statusTextStyle}>
+                  {`status: ${sensorData.status} (사물함에 물건이 있어요.)`}
+                </div>
               </>
             )}
           </div>
