@@ -1,6 +1,7 @@
 import React, { useRef, useEffect } from 'react';
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
+import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader';
 
 function LockerModel({ status }) {
   const mountRef = useRef(null);
@@ -10,85 +11,119 @@ function LockerModel({ status }) {
     scene.background = null;
 
     const camera = new THREE.PerspectiveCamera(
-      45,
+      75,
       window.innerWidth / window.innerHeight,
       0.1,
       1000
     );
-    camera.position.set(0, 0, 12);
+    camera.position.set(40, 40, 40);
+    camera.lookAt(0, 0, 0);
 
     const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
-    renderer.setSize(400, 400);
+    renderer.setSize(600, 600);
     renderer.setClearColor(0x000000, 0);
     mountRef.current.appendChild(renderer.domElement);
 
-    const lockerGeometry = new THREE.BoxGeometry(6.0, 6.0, 6.0);
-    const lockerMaterial = new THREE.MeshPhongMaterial({ 
-      color: Number(status) === 0 ? 0x00FF00 : 0xFF7171,
-      flatShading: false,
-      metalness: 0.5,
-      roughness: 0.3
-    });
-    const locker = new THREE.Mesh(lockerGeometry, lockerMaterial);
-    scene.add(locker);
-
-    const edgeGeometry = new THREE.EdgesGeometry(lockerGeometry);
-    const edgeMaterial = new THREE.LineBasicMaterial({ 
-      color: 0x000000,
-      linewidth: 2
-    });
-    const edges = new THREE.LineSegments(edgeGeometry, edgeMaterial);
-    locker.add(edges);
-
-    const handleGeometry = new THREE.BoxGeometry(0.2, 0.5, 0.2);
-    const handleMaterial = new THREE.MeshPhongMaterial({ 
-      color: 0x333333,
-      metalness: 0.8,
-      roughness: 0.2
-    });
-    const handle = new THREE.Mesh(handleGeometry, handleMaterial);
-    handle.position.set(2.5, 0, 3.1);
-    locker.add(handle);
-
-    const itemGroup = new THREE.Group();
-    
-    const boxGeometry = new THREE.BoxGeometry(5.0, 2.0, 5.0);
-    const boxMaterial = new THREE.MeshPhongMaterial({ 
-      color: 0x6184CA,
-      metalness: 0.1,
-      roughness: 0.8
-    });
-    const box = new THREE.Mesh(boxGeometry, boxMaterial);
-    itemGroup.add(box);
-
-    const boxEdges = new THREE.LineSegments(
-      new THREE.EdgesGeometry(boxGeometry),
-      new THREE.LineBasicMaterial({ color: 0x000000 })
-    );
-    box.add(boxEdges);
-
-    itemGroup.position.set(0, -1.5, 0);
-    itemGroup.visible = Number(status) === 1;
-    scene.add(itemGroup);
-
-    const frontLight = new THREE.DirectionalLight(0xffffff, 1);
-    frontLight.position.set(0, 0, 5);
+    const frontLight = new THREE.DirectionalLight(0xffffff, 1.5);
+    frontLight.position.set(50, 50, 50);
     scene.add(frontLight);
 
-    const topLight = new THREE.DirectionalLight(0xffffff, 0.5);
-    topLight.position.set(0, 5, 0);
+    const backLight = new THREE.DirectionalLight(0xffffff, 0.8);
+    backLight.position.set(-50, -50, -50);
+    scene.add(backLight);
+
+    const topLight = new THREE.DirectionalLight(0xffffff, 1.2);
+    topLight.position.set(0, 100, 0);
     scene.add(topLight);
 
-    const ambientLight = new THREE.AmbientLight(0x404040, 0.5);
+    const leftLight = new THREE.DirectionalLight(0xffffff, 0.8);
+    leftLight.position.set(-100, 0, 0);
+    scene.add(leftLight);
+
+    const rightLight = new THREE.DirectionalLight(0xffffff, 0.8);
+    rightLight.position.set(100, 0, 0);
+    scene.add(rightLight);
+
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.8);
     scene.add(ambientLight);
+
+    const bottomLight = new THREE.DirectionalLight(0xffffff, 0.5);
+    bottomLight.position.set(0, -50, 0);
+    scene.add(bottomLight);
+
+    const loader = new OBJLoader();
+
+    loader.load(
+      '/models/locker-body.obj',
+      (object) => {
+        object.traverse((child) => {
+          if (child instanceof THREE.Mesh) {
+            child.material = new THREE.MeshPhongMaterial({
+              color: Number(status) === 0 ? 0x00FF00 : 0x808080,
+              metalness: 0.5,
+              roughness: 0.3,
+              side: THREE.DoubleSide
+            });
+          }
+        });
+        
+        object.scale.set(0.5, 0.5, 0.5);
+        object.rotation.x = -Math.PI / 2;
+        object.position.set(0, 0, 0);
+        
+        scene.add(object);
+      },
+      (xhr) => {
+        console.log((xhr.loaded / xhr.total * 100) + '% loaded');
+      },
+      (error) => {
+        console.error('Error loading locker body:', error);
+      }
+    );
+
+    loader.load(
+      '/models/locker-door.obj',
+      (object) => {
+        object.traverse((child) => {
+          if (child instanceof THREE.Mesh) {
+            child.material = new THREE.MeshPhongMaterial({
+              color: 0x808080,
+              metalness: 0.5,
+              roughness: 0.3,
+              side: THREE.DoubleSide
+            });
+          }
+        });
+        
+        object.scale.set(0.5, 0.5, 0.5);
+        object.rotation.x = -Math.PI / 2;
+        object.rotation.y = Math.PI / 2;
+        object.position.set(0, 20, 8);
+        
+        if (Number(status) === 1) {
+          object.rotation.y = Math.PI;
+        }
+        
+        scene.add(object);
+      },
+      (xhr) => {
+        console.log((xhr.loaded / xhr.total * 100) + '% loaded');
+      },
+      (error) => {
+        console.error('Error loading locker door:', error);
+      }
+    );
 
     const controls = new OrbitControls(camera, renderer.domElement);
     controls.enableDamping = true;
     controls.dampingFactor = 0.05;
     controls.screenSpacePanning = false;
-    controls.minDistance = 8;
-    controls.maxDistance = 20;
+    controls.minDistance = 20;
+    controls.maxDistance = 150;
     controls.maxPolarAngle = Math.PI / 2;
+
+    controls.target.set(0, 0, 0);
+    controls.update();
 
     const animate = () => {
       requestAnimationFrame(animate);
