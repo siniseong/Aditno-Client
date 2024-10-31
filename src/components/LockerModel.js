@@ -16,7 +16,7 @@ function LockerModel({ status }) {
       0.1,
       1000
     );
-    camera.position.set(40, 40, 40);
+    camera.position.set(80, 80, 80);  // 카메라 위치 조정
     camera.lookAt(0, 0, 0);
 
     const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
@@ -67,7 +67,7 @@ function LockerModel({ status }) {
           }
         });
         
-        object.scale.set(0.5, 0.5, 0.5);
+        object.scale.set(1.2, 1.0, 1.0);  // 가로는 1.2배, 높이와 깊이는 1.0배로 설정
         object.rotation.x = -Math.PI / 2;
         object.position.set(0, 0, 0);
         
@@ -95,10 +95,10 @@ function LockerModel({ status }) {
           }
         });
         
-        object.scale.set(0.5, 0.5, 0.5);
+        object.scale.set(1.2, 1.0, 1.0);  // 가로는 1.2배, 높이와 깊이는 1.0배로 설정
         object.rotation.x = -Math.PI / 2;
         object.rotation.y = Math.PI / 2;
-        object.position.set(0, 20, 8);
+        object.position.set(0, 40, 16);    // 위치 조정
         
         if (Number(status) === 1) {
           object.rotation.y = Math.PI;
@@ -118,8 +118,8 @@ function LockerModel({ status }) {
     controls.enableDamping = true;
     controls.dampingFactor = 0.05;
     controls.screenSpacePanning = false;
-    controls.minDistance = 20;
-    controls.maxDistance = 150;
+    controls.minDistance = 40;    // 최소 거리 증가
+    controls.maxDistance = 300;   // 최대 거리 증가
     controls.maxPolarAngle = Math.PI / 2;
 
     controls.target.set(0, 0, 0);
@@ -133,7 +133,21 @@ function LockerModel({ status }) {
     animate();
 
     return () => {
-      mountRef.current.removeChild(renderer.domElement);
+      // DOM에서 캔버스 제거
+      if (mountRef.current && renderer.domElement) {
+        mountRef.current.removeChild(renderer.domElement);
+      }
+
+      // Scene cleanup
+      scene.traverse((object) => {
+        if (object instanceof THREE.Mesh) {
+          object.geometry.dispose();
+          object.material.dispose();
+        }
+      });
+
+      // Renderer cleanup
+      renderer.dispose();
     };
   }, [status]);
 
@@ -150,4 +164,4 @@ function LockerModel({ status }) {
   );
 }
 
-export default LockerModel;     
+export default LockerModel;
