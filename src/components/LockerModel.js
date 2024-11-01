@@ -16,11 +16,11 @@ function LockerModel({ status }) {
       0.1,
       1000
     );
-    camera.position.set(80, 80, 80);  // 카메라 위치 조정
-    camera.lookAt(0, 0, 0);
+    camera.position.set(80, 10, 80);  
+    camera.lookAt(0, -120, 0);
 
     const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
-    renderer.setSize(600, 600);
+    renderer.setSize(1200, 1200);
     renderer.setClearColor(0x000000, 0);
     mountRef.current.appendChild(renderer.domElement);
 
@@ -67,9 +67,9 @@ function LockerModel({ status }) {
           }
         });
         
-        object.scale.set(1.2, 1.0, 1.0);  // 가로는 1.2배, 높이와 깊이는 1.0배로 설정
+        object.scale.set(1.2, 1.0, 1.0);
         object.rotation.x = -Math.PI / 2;
-        object.position.set(0, 0, 0);
+        object.position.set(0, -120, 0);
         
         scene.add(object);
       },
@@ -95,10 +95,10 @@ function LockerModel({ status }) {
           }
         });
         
-        object.scale.set(1.2, 1.0, 1.0);  // 가로는 1.2배, 높이와 깊이는 1.0배로 설정
+        object.scale.set(1.2, 1.0, 1.0);
         object.rotation.x = -Math.PI / 2;
         object.rotation.y = Math.PI / 2;
-        object.position.set(0, 40, 16);    // 위치 조정
+        object.position.set(0, -80, 16);
         
         if (Number(status) === 1) {
           object.rotation.y = Math.PI;
@@ -118,11 +118,11 @@ function LockerModel({ status }) {
     controls.enableDamping = true;
     controls.dampingFactor = 0.05;
     controls.screenSpacePanning = false;
-    controls.minDistance = 40;    // 최소 거리 증가
-    controls.maxDistance = 300;   // 최대 거리 증가
+    controls.minDistance = 40;
+    controls.maxDistance = 300;
     controls.maxPolarAngle = Math.PI / 2;
 
-    controls.target.set(0, 0, 0);
+    controls.target.set(0, -120, 0);
     controls.update();
 
     const animate = () => {
@@ -133,12 +133,10 @@ function LockerModel({ status }) {
     animate();
 
     return () => {
-      // DOM에서 캔버스 제거
       if (mountRef.current && renderer.domElement) {
         mountRef.current.removeChild(renderer.domElement);
       }
 
-      // Scene cleanup
       scene.traverse((object) => {
         if (object instanceof THREE.Mesh) {
           object.geometry.dispose();
@@ -146,7 +144,6 @@ function LockerModel({ status }) {
         }
       });
 
-      // Renderer cleanup
       renderer.dispose();
     };
   }, [status]);

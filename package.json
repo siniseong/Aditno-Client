@@ -2,7 +2,7 @@
   "name": "aditno",
   "version": "0.1.0",
   "private": true,
-  "proxy": "https://port-0-prototype-m0p6660zb070e43c.sel4.cloudtype.app",
+  "proxy": "https://port-0-aditno-hwserver-lylb047299de6c8f.sel5.cloudtype.app/",
   "dependencies": {
     "@react-three/drei": "^9.115.0",
     "@react-three/fiber": "^8.17.10",
