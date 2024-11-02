@@ -6,12 +6,13 @@ import LockerModel from './LockerModel';
 function Here() {
   const navigate = useNavigate();
   const [sensorData, setSensorData] = useState(null);
+  const [servoData, setServoData] = useState(null);
   const [error, setError] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch('/sensor/status', {
+        const sensorResponse = await fetch('/sensor/status', {
           method: 'GET',
           headers: {
             'Accept': 'application/json',
@@ -19,21 +20,37 @@ function Here() {
           },
         });
 
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
+        const servoResponse = await fetch('/servo/status', {
+          method: 'GET',
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+          },
+        });
+
+        if (!sensorResponse.ok || !servoResponse.ok) {
+          throw new Error(`HTTP error!`);
         }
 
-        const data = await response.json();
-        console.log('Received sensor data:', data);
-        setSensorData(data);  
+        const sensorData = await sensorResponse.json();
+        const servoData = await servoResponse.json();
+        
+        console.log('Received sensor data:', sensorData);
+        console.log('Received servo data:', servoData);
+        
+        setSensorData(sensorData);
+        setServoData(servoData);
         setError(false);
       } catch (error) {
-        console.error('Error fetching sensor data:', error);
+        console.error('Error fetching data:', error);
         setError(true);
       }
     };
 
     fetchData();
+
+    const interval = setInterval(fetchData, 1000);
+    return () => clearInterval(interval);
   }, []);
 
   const messageStyle = {
@@ -102,10 +119,10 @@ function Here() {
           </button>
         </div>
       ) : (
-        sensorData && (
+        sensorData && servoData && (
           <div style={messageStyle}>
             <div style={modelContainerStyle}>
-              <LockerModel status={sensorData.status} />
+              <LockerModel status={sensorData.status} servoStatus={servoData.status} />
             </div>
             {Number(sensorData.status) === 0 ? (
               <>
@@ -113,12 +130,18 @@ function Here() {
                 <div style={statusTextStyle}>
                   {`status: ${sensorData.status} (빈 사물함입니다.)`}
                 </div>
+                <div style={statusTextStyle}>
+                  {`문 상태: ${Number(servoData.status) === 0 ? '닫힘' : '열림'}`}
+                </div>
               </>
             ) : (
               <>
                 <p style={{ fontSize: '50px' }}>사물함에 물건이 있습니다.</p>
                 <div style={statusTextStyle}>
                   {`status: ${sensorData.status} (물건이 존재하는 사물함입니다.)`}
+                </div>
+                <div style={statusTextStyle}>
+                  {`문 상태: ${Number(servoData.status) === 0 ? '닫힘' : '열림'}`}
                 </div>
               </>
             )}
