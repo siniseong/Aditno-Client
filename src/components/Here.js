@@ -39,13 +39,13 @@ function Here() {
   const messageStyle = {
     display: 'flex',
     flexDirection: 'column',
-    justifyContent: 'center',
+    justifyContent: 'flex-start',
     alignItems: 'center',
     minHeight: 'calc(100vh - 100px)',
     fontSize: '50px',
     fontWeight: 'bold',
     color: '#000',
-    marginTop: '50px'
+    marginTop: '20px'
   };
 
   const statusTextStyle = {
@@ -72,7 +72,8 @@ function Here() {
   const modelContainerStyle = {
     width: '100%',
     height: 'auto',
-    marginTop: '100px',
+    marginTop: '20px',
+    marginBottom: '-200px',
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
