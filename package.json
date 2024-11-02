@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "proxy": "https://port-0-aditno-hwserver-lylb047299de6c8f.sel5.cloudtype.app/",
-  "dependencies": {
+  "": {
     "@react-three/drei": "^9.115.0",
     "@react-three/fiber": "^8.17.10",
     "@testing-library/jest-dom": "^5.17.0",
@@ -42,5 +42,8 @@
   },
   "devDependencies": {
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11"
+  },
+  "dependencies": {
+    "nth-check": "^2.1.1"
   }
 }
