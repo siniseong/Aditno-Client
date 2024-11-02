@@ -11,12 +11,12 @@ function LockerModel({ status }) {
     scene.background = null;
 
     const camera = new THREE.PerspectiveCamera(
-      75,
+      45,
       800 / 600,
       0.1,
       1000
     );
-    camera.position.set(80, 10, 80);  
+    camera.position.set(50, 10, 50);  
     camera.lookAt(0, -120, 0);
 
     const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
@@ -118,8 +118,8 @@ function LockerModel({ status }) {
     controls.enableDamping = true;
     controls.dampingFactor = 0.05;
     controls.screenSpacePanning = false;
-    controls.minDistance = 40;
-    controls.maxDistance = 300;
+    controls.minDistance = 20;
+    controls.maxDistance = 150;
     controls.maxPolarAngle = Math.PI / 2;
 
     controls.target.set(0, -120, 0);
