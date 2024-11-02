@@ -12,7 +12,7 @@ function LockerModel({ status }) {
 
     const camera = new THREE.PerspectiveCamera(
       75,
-      window.innerWidth / window.innerHeight,
+      800 / 600,
       0.1,
       1000
     );
@@ -20,7 +20,7 @@ function LockerModel({ status }) {
     camera.lookAt(0, -120, 0);
 
     const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
-    renderer.setSize(1200, 1200);
+    renderer.setSize(800, 600);
     renderer.setClearColor(0x000000, 0);
     mountRef.current.appendChild(renderer.domElement);
 
@@ -150,11 +150,14 @@ function LockerModel({ status }) {
 
   return (
     <div style={{ 
-      width: '100%', 
-      height: '100%',
+      width: '800px',
+      height: '600px',
       display: 'flex',
       justifyContent: 'center',
-      alignItems: 'center'
+      alignItems: 'center',
+      margin: '100px auto 0',
+      position: 'relative',
+      zIndex: 1
     }}>
       <div ref={mountRef} />
     </div>

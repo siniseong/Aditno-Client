@@ -25,7 +25,7 @@ function Here() {
 
         const data = await response.json();
         console.log('Received sensor data:', data);
-        setSensorData(data);
+        setSensorData(data);  
         setError(false);
       } catch (error) {
         console.error('Error fetching sensor data:', error);
@@ -41,11 +41,11 @@ function Here() {
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
-    height: 'calc(100vh - 50px)', 
+    minHeight: 'calc(100vh - 100px)',
     fontSize: '50px',
     fontWeight: 'bold',
     color: '#000',
-    marginTop: '-50px'
+    marginTop: '50px'
   };
 
   const statusTextStyle = {
@@ -71,11 +71,13 @@ function Here() {
 
   const modelContainerStyle = {
     width: '100%',
-    height: '400px',
-    marginBottom: '20px',
+    height: 'auto',
+    marginTop: '100px',
     display: 'flex',
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
+    position: 'relative',
+    zIndex: 1
   };
 
   return (
