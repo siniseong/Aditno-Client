@@ -67,7 +67,7 @@ function LockerModel({ status }) {
           if (child instanceof THREE.Mesh) {
             child.material = new THREE.MeshPhongMaterial({
               map: woodTexture,
-              color: 0xFFFFFF,
+              color: Number(status) === 0 ? 0xFFFFFF : 0xE0E0E0,
               metalness: 0.2,
               roughness: 0.8,
               side: THREE.DoubleSide
