@@ -51,6 +51,13 @@ function LockerModel({ status }) {
     bottomLight.position.set(0, -50, 0);
     scene.add(bottomLight);
 
+    const textureLoader = new THREE.TextureLoader();
+    const woodTexture = textureLoader.load('/textures/white-wood.jpg');
+    
+    woodTexture.wrapS = THREE.RepeatWrapping;
+    woodTexture.wrapT = THREE.RepeatWrapping;
+    woodTexture.repeat.set(1, 1);
+
     const loader = new OBJLoader();
 
     loader.load(
@@ -59,9 +66,10 @@ function LockerModel({ status }) {
         object.traverse((child) => {
           if (child instanceof THREE.Mesh) {
             child.material = new THREE.MeshPhongMaterial({
-              color: Number(status) === 0 ? 0x00FF00 : 0x808080,
-              metalness: 0.5,
-              roughness: 0.3,
+              map: woodTexture,
+              color: Number(status) === 0 ? 0xFFFFFF : 0xE0E0E0,
+              metalness: 0.2,
+              roughness: 0.8,
               side: THREE.DoubleSide
             });
           }
@@ -87,9 +95,10 @@ function LockerModel({ status }) {
         object.traverse((child) => {
           if (child instanceof THREE.Mesh) {
             child.material = new THREE.MeshPhongMaterial({
-              color: 0x808080,
-              metalness: 0.5,
-              roughness: 0.3,
+              map: woodTexture,
+              color: 0xFFFFFF,
+              metalness: 0.2,
+              roughness: 0.8,
               side: THREE.DoubleSide
             });
           }
