@@ -97,12 +97,8 @@ function LockerModel({ status }) {
         
         object.scale.set(1.2, 1.0, 1.0);
         object.rotation.x = -Math.PI / 2;
-        object.rotation.y = Math.PI / 2;
+        object.rotation.y = Math.PI;
         object.position.set(0, -80, 16);
-        
-        if (Number(status) === 1) {
-          object.rotation.y = Math.PI;
-        }
         
         scene.add(object);
       },
