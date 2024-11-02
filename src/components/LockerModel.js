@@ -3,7 +3,8 @@ import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader';
 
-function LockerModel({ status }) {
+
+function LockerModel({ servoStatus }) {
   const mountRef = useRef(null);
 
   useEffect(() => {
@@ -67,7 +68,7 @@ function LockerModel({ status }) {
           if (child instanceof THREE.Mesh) {
             child.material = new THREE.MeshPhongMaterial({
               map: woodTexture,
-              color: Number(status) === 0 ? 0xFFFFFF : 0xE0E0E0,
+              color: Number(servoStatus) === 0 ? 0xFFFFFF : 0xE0E0E0,
               metalness: 0.2,
               roughness: 0.8,
               side: THREE.DoubleSide
@@ -89,6 +90,8 @@ function LockerModel({ status }) {
       }
     );
 
+    const group = new THREE.Group();
+
     loader.load(
       '/models/locker-door.obj',
       (object) => {
@@ -107,9 +110,10 @@ function LockerModel({ status }) {
         object.scale.set(1.2, 1.0, 1.0);
         object.rotation.x = -Math.PI / 2;
         object.rotation.y = Math.PI;
-        object.position.set(0, -80, 16);
+        object.position.set(-17, 0, 0);
         
-        scene.add(object);
+        
+        group.add(object);
       },
       (xhr) => {
         console.log((xhr.loaded / xhr.total * 100) + '% loaded');
@@ -118,6 +122,10 @@ function LockerModel({ status }) {
         console.error('Error loading locker door:', error);
       }
     );
+
+    group.position.set(17, -80, 16);
+    group.rotation.set(0, Math.PI / 2 * (1 - servoStatus), 0);
+    scene.add(group);
 
     const controls = new OrbitControls(camera, renderer.domElement);
     controls.enableDamping = true;
@@ -130,9 +138,13 @@ function LockerModel({ status }) {
     controls.target.set(0, -120, 0);
     controls.update();
 
+    
     const animate = () => {
       requestAnimationFrame(animate);
       controls.update();
+
+      group.rotation.y = 
+        THREE.MathUtils.lerp(group.rotation.y, Math.PI / 2 * servoStatus, 0.1);
       renderer.render(scene, camera);
     };
     animate();
@@ -151,7 +163,7 @@ function LockerModel({ status }) {
 
       renderer.dispose();
     };
-  }, [status]);
+  }, [servoStatus]);
 
   return (
     <div style={{ 
