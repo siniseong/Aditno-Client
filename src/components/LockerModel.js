@@ -3,8 +3,7 @@ import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader';
 
-
-function LockerModel({ servoStatus }) {
+function LockerModel({ status, servoStatus }) {
   const mountRef = useRef(null);
 
   useEffect(() => {
@@ -71,7 +70,9 @@ function LockerModel({ servoStatus }) {
               color: Number(servoStatus) === 0 ? 0xFFFFFF : 0xE0E0E0,
               metalness: 0.2,
               roughness: 0.8,
-              side: THREE.DoubleSide
+              side: THREE.DoubleSide,
+              emissive: Number(status) === 0 ? 0x00FF00 : 0xFF0000,
+              emissiveIntensity: 0.2
             });
           }
         });
@@ -102,7 +103,9 @@ function LockerModel({ servoStatus }) {
               color: 0xFFFFFF,
               metalness: 0.2,
               roughness: 0.8,
-              side: THREE.DoubleSide
+              side: THREE.DoubleSide,
+              emissive: Number(status) === 0 ? 0x00FF00 : 0xFF0000,
+              emissiveIntensity: 0.2
             });
           }
         });
@@ -111,7 +114,6 @@ function LockerModel({ servoStatus }) {
         object.rotation.x = -Math.PI / 2;
         object.rotation.y = Math.PI;
         object.position.set(-17, 0, 0);
-        
         
         group.add(object);
       },
@@ -138,7 +140,6 @@ function LockerModel({ servoStatus }) {
     controls.target.set(0, -120, 0);
     controls.update();
 
-    
     const animate = () => {
       requestAnimationFrame(animate);
       controls.update();
@@ -163,7 +164,7 @@ function LockerModel({ servoStatus }) {
 
       renderer.dispose();
     };
-  }, [servoStatus]);
+  }, [servoStatus, status]);
 
   return (
     <div style={{ 
