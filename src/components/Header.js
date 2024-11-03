@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import '../style/Header.css';
 
 function Header() {
   return (
@@ -7,16 +8,7 @@ function Header() {
       <div className="header-container">
         <div className="logo">
           <Link to="/find">
-            <img 
-              src="/images/logo.png" 
-              alt="Aditno" 
-              style={{ 
-                width: '32px', 
-                height: '30px',
-                marginTop: '14px',
-                marginLeft: '30px'
-              }}
-            />
+            <img src="/images/logo.png" alt="Aditno" />
           </Link>
         </div>
         <div className="nav-login">
