@@ -126,7 +126,7 @@ function Here() {
             </div>
             {Number(sensorData.status) === 0 ? (
               <>
-                <p style={{ fontSize: '50px' }}>사물함이 비어있습니다.</p>
+                <p style={{ fontSize: '40px' }}>사물함이 비어있습니다.</p>
                 <div style={statusTextStyle}>
                   {`status: ${sensorData.status} (빈 사물함입니다.)`}
                 </div>
@@ -136,7 +136,7 @@ function Here() {
               </>
             ) : (
               <>
-                <p style={{ fontSize: '50px' }}>사물함에 물건이 있습니다.</p>
+                <p style={{ fontSize: '40px' }}>사물함에 물건이 있습니다.</p>
                 <div style={statusTextStyle}>
                   {`status: ${sensorData.status} (물건이 존재하는 사물함입니다.)`}
                 </div>
