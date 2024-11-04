@@ -7,6 +7,7 @@ function LockerModel({ status, servoStatus }) {
   const mountRef = useRef(null);
 
   useEffect(() => {
+    const currentMount = mountRef.current;
     const scene = new THREE.Scene();
     scene.background = null;
 
@@ -22,7 +23,7 @@ function LockerModel({ status, servoStatus }) {
     const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
     renderer.setSize(800, 600);
     renderer.setClearColor(0x000000, 0);
-    mountRef.current.appendChild(renderer.domElement);
+    currentMount.appendChild(renderer.domElement);
 
     const frontLight = new THREE.DirectionalLight(0xffffff, 1.5);
     frontLight.position.set(50, 50, 50);
@@ -151,8 +152,8 @@ function LockerModel({ status, servoStatus }) {
     animate();
 
     return () => {
-      if (mountRef.current && renderer.domElement) {
-        mountRef.current.removeChild(renderer.domElement);
+      if (currentMount && renderer.domElement) {
+        currentMount.removeChild(renderer.domElement);
       }
 
       scene.traverse((object) => {
@@ -173,7 +174,7 @@ function LockerModel({ status, servoStatus }) {
       display: 'flex',
       justifyContent: 'center',
       alignItems: 'center',
-      margin: '100px auto 0',
+      margin: '-60px auto 0',
       position: 'relative',
       zIndex: 1
     }}>
