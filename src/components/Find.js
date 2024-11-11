@@ -10,7 +10,33 @@ function Find() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch('https://port-0-uhditknow-backend-m0z0hcc2db07a95e.sel4.cloudtype.app/got');
+        const token = localStorage.getItem('Authorization');
+        const refreshToken = localStorage.getItem('x-refresh-token');
+
+        if (!token) {
+          console.error('토큰이 없습니다');
+          return;
+        }
+
+        const response = await fetch('https://port-0-uhditknow-backend-m0z0hcc2db07a95e.sel4.cloudtype.app/got', {
+          method: 'GET',
+          headers: {
+            'Authorization': token,
+            'x-refresh-token': refreshToken,
+            'Content-Type': 'application/json'
+          }
+        });
+
+        if (!response.ok) {
+          if (response.status === 401) {
+            localStorage.removeItem('Authorization');
+            localStorage.removeItem('x-refresh-token');
+            window.location.href = '/find';
+            return;
+          }
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
         const data = await response.json();
         
         const formattedData = data.map(item => ({
