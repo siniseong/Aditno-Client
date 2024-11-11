@@ -13,7 +13,7 @@ function App() {
         <Route path="/" element={<Lost />} />
         <Route path="/lost" element={<Lost />} />
         <Route path="/lostform" element={<LostForm />} />
-        <Route path="/find" element={<Find />} />
+        <Route path="/got" element={<Find />} />
         <Route path="/findform" element={<FindForm />} />
         <Route path="/here" element={<Here />} />
       </Routes>

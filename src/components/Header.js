@@ -13,23 +13,14 @@ function Header() {
     if (code) {
       console.log('받은 인증 코드:', code);
       
-      const requestData = {
-        code: code
-      };
-      console.log('백엔드로 보내는 데이터:', requestData);
-      
-      fetch('http://port-0-uhditknow-backend-m0z0hcc2db07a95e.sel4.cloudtype.app/oauth', {
-        method: 'POST',
+      fetch(`https://port-0-uhditknow-backend-m0z0hcc2db07a95e.sel4.cloudtype.app/oauth?code=${code}`, {
+        method: 'GET',
         headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json'
-        },
-        body: JSON.stringify(requestData),
+          'Accept': 'application/json',
+        }
       })
       .then(async response => {
         console.log('서버 응답 상태:', response.status);
-        console.log('서버 응답 헤더:', Object.fromEntries(response.headers.entries()));
-        
         const responseText = await response.text();
         console.log('서버 응답 내용:', responseText);
         
@@ -37,24 +28,15 @@ function Header() {
           throw new Error(`HTTP error! status: ${response.status}, response: ${responseText}`);
         }
         
-        try {
-          return JSON.parse(responseText);
-        } catch (error) {
-          console.error('JSON 파싱 에러:', error);
-          console.log('파싱 시도한 텍스트:', responseText);
-          throw error;
-        }
+        return JSON.parse(responseText);
       })
       .then(data => {
-        console.log('백엔드 응답 데이터:', data);
+        console.log('백엔드 응답:', data);
 
         if (data.Authorization && data['x-refresh-token']) {
           localStorage.setItem('Authorization', data.Authorization);
           localStorage.setItem('x-refresh-token', data['x-refresh-token']);
-          console.log('토큰 저장 완료:', {
-            Authorization: localStorage.getItem('Authorization'),
-            'x-refresh-token': localStorage.getItem('x-refresh-token')
-          });
+          console.log('토큰 저장 완료');
           setIsLoggedIn(true);
           window.location.href = '/find';
         } else {
@@ -63,18 +45,12 @@ function Header() {
       })
       .catch(error => {
         console.error('로그인 처리 실패:', error);
-        console.error('에러 상세:', {
-          name: error.name,
-          message: error.message,
-          stack: error.stack
-        });
         localStorage.removeItem('Authorization');
         localStorage.removeItem('x-refresh-token');
         setIsLoggedIn(false);
       });
     } else {
       const token = localStorage.getItem('Authorization');
-      console.log('저장된 토큰 확인:', token ? '있음' : '없음');
       setIsLoggedIn(!!token);
     }
   }, [location]);
@@ -103,11 +79,11 @@ function Header() {
             <Link to="/find"><h6>홈</h6></Link>
             <Link to="/here"><h6>여기있어요</h6></Link>
           </nav>
-          <div className="login">
+          <div className="login">    
             {isLoggedIn ? (
               <h6 onClick={handleLogout} style={{ cursor: 'pointer' }}>로그아웃</h6>
             ) : (
-              <a href={`https://auth.bssm.app/oauth?clientId=7858c499&redirectURI=${encodeURIComponent('http://localhost:3000/find')}`}>
+              <a href={`https://auth.bssm.app/oauth?clientId=7858c499&redirectURI=${encodeURIComponent('http://localhost:3000/got')}`}>
                 <h6>로그인</h6>
               </a>
             )}
