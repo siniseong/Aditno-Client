@@ -78,7 +78,7 @@ function FindForm() {
     }
 
     try {
-      const response = await fetch('https://port-0-uhditknow-backend-m0z0hcc2db07a95e.sel4.cloudtype.app/got/add', {
+      const response = await fetch('http://3.37.99.30:8080/got/add', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -91,7 +91,7 @@ function FindForm() {
       }
 
       alert('성공적으로 등록되었습니다!');
-      navigate('/find');
+      navigate('/got');
     } catch (error) {
       console.error('Error:', error);
       alert('등록 중 오류가 발생했습니다.');

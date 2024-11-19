@@ -18,7 +18,7 @@ function Find() {
           return;
         }
 
-        const response = await fetch('https://port-0-uhditknow-backend-m0z0hcc2db07a95e.sel4.cloudtype.app/got', {
+        const response = await fetch('http://3.37.99.30:8080/got', {
           method: 'GET',
           headers: {
             'Authorization': token,
@@ -29,10 +29,9 @@ function Find() {
 
         if (!response.ok) {
           if (response.status === 401) {
-            localStorage.removeItem('Authorization');
-            localStorage.removeItem('x-refresh-token');
-            window.location.href = '/find';
-            return;
+            // 401 에러 발생 시, 토큰을 출력하고 아무것도 하지 않음
+            console.log('401 에러 발생: 세션이 만료되었습니다. 현재 토큰:', token);
+            return; // 아무것도 하지 않고 종료
           }
           throw new Error(`HTTP error! status: ${response.status}`);
         }
@@ -79,7 +78,7 @@ function Find() {
         </div>
         <div className="move-b">
           <div id="move-b-p">
-            <Link to="/find"><h5>분실물을 찾았어요.</h5></Link>
+            <Link to="/got"><h5>분실물을 찾았어요.</h5></Link>
           </div>
           <div id="move-b-b">
             <Link to="/lost"><h5>분실물을 잃어버렸어요.</h5></Link>

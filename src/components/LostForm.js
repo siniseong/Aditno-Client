@@ -78,7 +78,7 @@ function LostForm() {
     }
 
     try {
-      const response = await fetch('https://port-0-uhditknow-backend-m0z0hcc2db07a95e.sel4.cloudtype.app/lookingfor/add', {
+      const response = await fetch('http://3.37.99.30:8080/lookingfor/add', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

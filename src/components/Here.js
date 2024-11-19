@@ -112,7 +112,7 @@ function Here() {
           />
           이런! 데이터가 존재하지 않습니다.
           <button 
-            onClick={() => navigate('/find')}
+            onClick={() => navigate('/got')}
             style={buttonStyle}
           >
             홈으로 돌아가기

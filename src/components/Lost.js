@@ -11,7 +11,7 @@ function Lost() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch('https://port-0-uhditknow-backend-m0z0hcc2db07a95e.sel4.cloudtype.app/lookingfor');
+        const response = await fetch('http://3.37.99.30:8080/lookingfor');
         const data = await response.json();
         
         const formattedData = data.map(item => ({
@@ -57,7 +57,7 @@ function Lost() {
         
         <div className="move-b">
           <div id="move-b-b">
-            <Link to="/find"><h5>분실물을 찾았어요.</h5></Link>
+            <Link to="/got"><h5>분실물을 찾았어요.</h5></Link>
           </div>
           <div id="move-b-p">
             <Link to="/lost"><h5>분실물을 잃어버렸어요.</h5></Link>
