@@ -77,13 +77,16 @@ function LostForm() {
       return;
     }
 
+    const token = localStorage.getItem('Authorization'); // 토큰 가져오기
+
     try {
       const response = await fetch('http://3.37.99.30:8080/lookingfor/add', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`, // 토큰 포함
         },
-        body: JSON.stringify(formData)
+        body: JSON.stringify({ ...formData, tags }) // 태그도 포함
       });
 
       if (!response.ok) {
@@ -163,14 +166,14 @@ function LostForm() {
             />
           </div>
           <div className="form">
-            <h3><span className="pink">5. </span>잃어버린 장소를 알려주세요.</h3>
+            <h3><span className="pink">5. </span>세부 설명을 입력해주세요.</h3>
             <input 
               className="textbox" 
               type="text" 
               name="detail"
               value={formData.detail}
               onChange={handleInputChange}
-              placeholder="ex) 도서관" 
+              placeholder="ex) 에어팟을 src1층에서 주웠는데 피카츄스티커 붙여져있고 등등" 
             />
           </div>
           <div className="form">

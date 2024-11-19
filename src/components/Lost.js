@@ -11,7 +11,14 @@ function Lost() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch('http://3.37.99.30:8080/lookingfor');
+        const token = localStorage.getItem('Authorization'); // 토큰 가져오기
+        const response = await fetch('http://3.37.99.30:8080/lookingfor', {
+          method: 'GET',
+          headers: {
+            'Authorization': `Bearer ${token}`, // 토큰 포함
+            'Content-Type': 'application/json',
+          },
+        });
         const data = await response.json();
         
         const formattedData = data.map(item => ({
