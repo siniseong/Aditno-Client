@@ -30,9 +30,11 @@ function Header() {
       if (data.AccessToken && data.RefreshToken) {
         localStorage.setItem('Authorization', data.AccessToken);
         localStorage.setItem('x-refresh-token', data.RefreshToken);
+        localStorage.setItem('email', data.Email);
         console.log('토큰 저장 완료:', {
           'Authorization': data.AccessToken,
-          'x-refresh-token': data.RefreshToken
+          'x-refresh-token': data.RefreshToken,
+          'email': data.Email,
         });
         setIsLoggedIn(true);
         window.location.href = '/got'; 
@@ -43,6 +45,7 @@ function Header() {
       console.error('로그인 처리 중 에러:', error);
       localStorage.removeItem('Authorization');
       localStorage.removeItem('x-refresh-token');
+      localStorage.removeItem('email');
       setIsLoggedIn(false);
     }
   };
@@ -88,7 +91,7 @@ function Header() {
             {isLoggedIn ? (
               <h6 onClick={handleLogout} style={{ cursor: 'pointer' }}>로그아웃</h6>
             ) : (
-              <a href={`https://auth.bssm.app/oauth?clientId=7858c499&redirectURI=${encodeURIComponent('http://localhost:3001/got')}`}>
+              <a href={`https://auth.bssm.app/oauth?clientId=7858c499&redirectURI=${encodeURIComponent('http://localhost:3000/got')}`}>
                 <h6>로그인</h6>
               </a>
             )}

@@ -7,11 +7,13 @@ function FindForm() {
   const [tags, setTags] = useState([]);
   const [tagInput, setTagInput] = useState('');
   const [imagePreview, setImagePreview] = useState('');
+  const userName = localStorage.getItem('name');
   const [formData, setFormData] = useState({
     title: '',
     location: '',
     detail: '',
-    time: ''
+    time: '',
+    locker: ''  // 사물함 필드 추가
   });
 
   const handleInputChange = (e) => {
@@ -72,21 +74,25 @@ function FindForm() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     
-    if (!formData.title || !formData.location || !formData.detail || !formData.time) {
+    if (!formData.title || !formData.location || !formData.detail || !formData.time || !formData.locker) {
       alert('모든 필드를 입력해주세요.');
       return;
     }
 
-    const token = localStorage.getItem('Authorization'); // 토큰 가져오기
+    const token = localStorage.getItem('Authorization');
 
     try {
       const response = await fetch('http://3.37.99.30:8080/got/add', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`, // 토큰 포함
+          'Authorization': `Bearer ${token}`,
         },
-        body: JSON.stringify({ ...formData, tags }) // 태그도 포함
+        body: JSON.stringify({ 
+          ...formData, 
+          tags,
+          name: userName
+        })
       });
 
       if (!response.ok) {
@@ -106,6 +112,16 @@ function FindForm() {
       <Header />
       <main>
         <form onSubmit={handleSubmit}>
+          <div className="form">
+            <h3>작성자</h3>
+            <input 
+              className="textbox" 
+              type="text" 
+              value={userName || ''}
+              readOnly
+              style={{ backgroundColor: '#f0f0f0' }}
+            />
+          </div>
           <div className="form">
             <h3><span className="pink">1. </span>제목을 입력해주세요.</h3>
             <input 
@@ -177,7 +193,29 @@ function FindForm() {
             />
           </div>
           <div className="form">
-            <h3><span className="pink">6. </span>사진을 첨부해주세요.</h3>
+            <h3><span className="pink">6. </span>보관할 사물함을 선택해주세요.</h3>
+            <select
+              className="textbox"
+              name="locker"
+              value={formData.locker}
+              onChange={handleInputChange}
+              style={{
+                width: '100%',
+                padding: '15px',
+                height: '50px',
+                borderRadius: '5px',
+                border: '1px solid #ddd',
+                fontSize: '16px',
+                appearance: 'auto'
+              }}
+            >
+              <option value="">사물함을 선택해주세요</option>
+              <option value="사물함-1">사물함-1</option>
+              <option value="사물함-2">사물함-2</option>
+            </select>
+          </div>
+          <div className="form">
+            <h3><span className="pink">7. </span>사진을 첨부해주세요.</h3>
             <div 
               id="drop-area" 
               style={dropAreaStyle}
@@ -189,7 +227,6 @@ function FindForm() {
                 <>
                   <svg xmlns="http://www.w3.org/2000/svg" width="49" height="48" viewBox="0 0 49 48" fill="none">
                     <path d="M26.5 38C26.5 39.4 26.76 40.74 27.2 42H10.5C8.3 42 6.5 40.22 6.5 38V10C6.5 7.8 8.3 6 10.5 6H38.5C40.72 6 42.5 7.8 42.5 10V26.7C41.24 26.26 39.9 26 38.5 26V10H10.5V38H26.5ZM28.42 24.58L22.92 31.66L19 26.94L13.5 34H27.2C28 31.76 29.44 29.82 31.3 28.42L28.42 24.58ZM40.5 36V30H36.5V36H30.5V40H36.5V46H40.5V40H46.5V36H40.5Z" fill="#6C757D" />
-
                   </svg>
                   <p>이미지를 드래그 앤 드롭 또는 직접 업로드 해 주세요.</p>
                 </>
