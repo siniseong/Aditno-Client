@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Header from './Header';
 
@@ -8,13 +8,48 @@ function FindForm() {
   const [tagInput, setTagInput] = useState('');
   const [imagePreview, setImagePreview] = useState('');
   const userName = localStorage.getItem('name');
+  const [lockers, setLockers] = useState([]);  
   const [formData, setFormData] = useState({
     title: '',
     location: '',
     detail: '',
     time: '',
-    locker: ''  // 사물함 필드 추가
+    locker: '' 
   });
+
+  const fetchLockerStatus = async () => {
+    try {
+      const response = await fetch('sensor/status', {
+        method: 'GET',
+        headers: {
+          'Accept': 'application/json'
+        }
+      });
+
+      if (!response.ok) {
+        throw new Error('사물함 상태 조회 실패');
+      }
+
+      const data = await response.json();
+      console.log('사물함 상태:', data);
+
+      const availableLockers = data
+        .filter(locker => locker.status === "0")
+        .map(locker => ({
+          id: locker.sensorId,
+          name: `사물함 ${locker.sensorId}`
+        }));
+
+      console.log('사용 가능한 사물함:', availableLockers);
+      setLockers(availableLockers);
+    } catch (error) {
+      console.error('사물함 상태 조회 중 에러:', error);
+    }
+  };
+
+  useEffect(() => {
+    fetchLockerStatus();
+  }, []);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -48,7 +83,7 @@ function FindForm() {
     e.stopPropagation();
     const file = e.dataTransfer.files[0];
     handleFile(file);
-  };
+  }; 
 
   const handleFileInput = (e) => {
     const file = e.target.files[0];
@@ -210,8 +245,11 @@ function FindForm() {
               }}
             >
               <option value="">사물함을 선택해주세요</option>
-              <option value="사물함-1">사물함-1</option>
-              <option value="사물함-2">사물함-2</option>
+              {lockers.map((locker) => (
+                <option key={locker.id} value={locker.id}>
+                  {locker.name}
+                </option>
+              ))}
             </select>
           </div>
           <div className="form">
