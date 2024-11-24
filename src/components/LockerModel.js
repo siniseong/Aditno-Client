@@ -3,7 +3,7 @@ import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader';
 
-function LockerModel({ status, servoStatus }) {
+function LockerModel({ status1, status2, servoStatus }) {
   const mountRef = useRef(null);
 
   useEffect(() => {
@@ -73,7 +73,7 @@ function LockerModel({ status, servoStatus }) {
               metalness: 0.2,
               roughness: 0.8,
               side: THREE.DoubleSide,
-              emissive: Number(status) === 0 ? 0x00FF00 : 0xFF0000,
+              emissive: Number(status2) === 0 ? 0x00FF00 : 0xFF0000,
               emissiveIntensity: 0.2
             });
           }
@@ -104,7 +104,7 @@ function LockerModel({ status, servoStatus }) {
               metalness: 0.2,
               roughness: 0.8,
               side: THREE.DoubleSide,
-              emissive: Number(status) === 0 ? 0x00FF00 : 0xFF0000,
+              emissive: Number(status1) === 0 ? 0x00FF00 : 0xFF0000,
               emissiveIntensity: 0.2
             });
           }
@@ -137,7 +137,7 @@ function LockerModel({ status, servoStatus }) {
               metalness: 0.2,
               roughness: 0.8,
               side: THREE.DoubleSide,
-              emissive: Number(status) === 0 ? 0x00FF00 : 0xFF0000,
+              emissive: Number(status1) === 0 ? 0x00FF00 : 0xFF0000,
               emissiveIntensity: 0.2
             });
           }
@@ -175,7 +175,7 @@ function LockerModel({ status, servoStatus }) {
               metalness: 0.2,
               roughness: 0.8,
               side: THREE.DoubleSide,
-              emissive: Number(status) === 0 ? 0x00FF00 : 0xFF0000,
+              emissive: Number(status2) === 0 ? 0x00FF00 : 0xFF0000,
               emissiveIntensity: 0.2
             });
           }
@@ -243,7 +243,7 @@ function LockerModel({ status, servoStatus }) {
 
       renderer.dispose();
     };
-  }, [servoStatus, status]);
+  }, [servoStatus, status1, status2]);
 
   return (
     <div style={{ 
