@@ -92,7 +92,38 @@ function LockerModel({ status, servoStatus }) {
       }
     );
 
-    const group = new THREE.Group();
+    loader.load(
+      '/models/locker-body.obj',
+      (object) => {
+        object.traverse((child) => {
+          if (child instanceof THREE.Mesh) {
+            child.material = new THREE.MeshPhongMaterial({
+              map: woodTexture,
+              color: Number(servoStatus) === 0 ? 0xFFFFFF : 0xE0E0E0,
+              metalness: 0.2,
+              roughness: 0.8,
+              side: THREE.DoubleSide,
+              emissive: Number(status) === 0 ? 0x00FF00 : 0xFF0000,
+              emissiveIntensity: 0.2
+            });
+          }
+        });
+        
+        object.scale.set(1.2, 1.0, 1.0);
+        object.rotation.x = -Math.PI / 2;
+        object.position.set(0, -80, 0);
+        
+        scene.add(object);
+      },
+      (xhr) => {
+        console.log((xhr.loaded / xhr.total * 100) + '% loaded');
+      },
+      (error) => {
+        console.error('Error loading locker body:', error);
+      }
+    );
+
+    const group1 = new THREE.Group();
 
     loader.load(
       '/models/locker-door.obj',
@@ -116,7 +147,7 @@ function LockerModel({ status, servoStatus }) {
         object.rotation.y = Math.PI;
         object.position.set(-17, 0, 0);
         
-        group.add(object);
+        group1.add(object);
       },
       (xhr) => {
         console.log((xhr.loaded / xhr.total * 100) + '% loaded');
@@ -126,9 +157,47 @@ function LockerModel({ status, servoStatus }) {
       }
     );
 
-    group.position.set(17, -80, 16);
-    group.rotation.set(0, Math.PI / 2 * (1 - servoStatus), 0);
-    scene.add(group);
+    group1.position.set(17, -80, 16);
+    group1.rotation.set(0, Math.PI / 2 * (1 - servoStatus), 0);
+    scene.add(group1);
+
+    const group2 = new THREE.Group();
+
+    loader.load(
+      '/models/locker-door.obj',
+      (object) => {
+        object.traverse((child) => {
+          if (child instanceof THREE.Mesh) {
+            child.material = new THREE.MeshPhongMaterial({
+              map: woodTexture,
+              color: 0xFFFFFF,
+              metalness: 0.2,
+              roughness: 0.8,
+              side: THREE.DoubleSide,
+              emissive: Number(status) === 0 ? 0x00FF00 : 0xFF0000,
+              emissiveIntensity: 0.2
+            });
+          }
+        });
+        
+        object.scale.set(1.2, 1.0, 1.0);
+        object.rotation.x = -Math.PI / 2;
+        object.rotation.y = Math.PI;
+        object.position.set(-17, 0, 0);
+        
+        group2.add(object);
+      },
+      (xhr) => {
+        console.log((xhr.loaded / xhr.total * 100) + '% loaded');
+      },
+      (error) => {
+        console.error('Error loading locker door:', error);
+      }
+    );
+
+    group2.position.set(17, -40, 16);
+    group2.rotation.set(0, Math.PI / 2 * (1 - servoStatus), 0);
+    scene.add(group2);
 
     const controls = new OrbitControls(camera, renderer.domElement);
     controls.enableDamping = true;
@@ -145,8 +214,16 @@ function LockerModel({ status, servoStatus }) {
       requestAnimationFrame(animate);
       controls.update();
 
-      group.rotation.y = 
-        THREE.MathUtils.lerp(group.rotation.y, Math.PI / 2 * servoStatus, 0.1);
+      group1.rotation.y = THREE.MathUtils.lerp(
+        group1.rotation.y, 
+        Math.PI / 2 * servoStatus, 
+        0.1
+      );
+      group2.rotation.y = THREE.MathUtils.lerp(
+        group2.rotation.y, 
+        Math.PI / 2 * servoStatus, 
+        0.1
+      );
       renderer.render(scene, camera);
     };
     animate();

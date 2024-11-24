@@ -10,7 +10,7 @@ function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<Lost />} />
+        <Route path="/" element={<Find />} />
         <Route path="/lost" element={<Lost />} />
         <Route path="/lostform" element={<LostForm />} />
         <Route path="/got" element={<Find />} />
