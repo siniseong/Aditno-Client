@@ -137,7 +137,7 @@ function LockerModel({ status1, status2, servoStatus }) {
               metalness: 0.2,
               roughness: 0.8,
               side: THREE.DoubleSide,
-              emissive: Number(status1) === 0 ? 0x00FF00 : 0xFF0000,
+              emissive: Number(status2) === 0 ? 0x00FF00 : 0xFF0000,
               emissiveIntensity: 0.2
             });
           }
@@ -175,7 +175,7 @@ function LockerModel({ status1, status2, servoStatus }) {
               metalness: 0.2,
               roughness: 0.8,
               side: THREE.DoubleSide,
-              emissive: Number(status2) === 0 ? 0x00FF00 : 0xFF0000,
+              emissive: Number(status1) === 0 ? 0x00FF00 : 0xFF0000,
               emissiveIntensity: 0.2
             });
           }
