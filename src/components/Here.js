@@ -62,7 +62,7 @@ function Here() {
     fontSize: '38px',
     fontWeight: 'bold',
     color: '#000',
-    marginTop: '20px'
+    marginTop: '260px'
   };  
 
   const statusTextStyle = {
@@ -98,8 +98,14 @@ function Here() {
     zIndex: 1
   };
 
+  const pageStyle = {
+    width: '100%',
+    height: '100vh',
+    overflow: 'hidden'
+  };
+
   return (
-    <div>
+    <div style={pageStyle}>
       <Header />
       {error ? (
         <div style={messageStyle}>

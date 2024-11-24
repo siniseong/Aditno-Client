@@ -12,16 +12,17 @@ function LockerModel({ status, servoStatus }) {
     scene.background = null;
 
     const camera = new THREE.PerspectiveCamera(
-      45,
+      60,
       800 / 600,
       0.1,
       1000
     );
-    camera.position.set(50, 10, 50);  
-    camera.lookAt(0, -120, 0);
+    camera.position.set(50, 20, 50);
+    camera.lookAt(0, -100, 0);
 
     const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
-    renderer.setSize(800, 600);
+    renderer.setSize(800, 1000);
+    renderer.setViewport(0, 300, 800, 600);
     renderer.setClearColor(0x000000, 0);
     currentMount.appendChild(renderer.domElement);
 
@@ -207,7 +208,7 @@ function LockerModel({ status, servoStatus }) {
     controls.maxDistance = 150;
     controls.maxPolarAngle = Math.PI / 2;
 
-    controls.target.set(0, -120, 0);
+    controls.target.set(0, -100, 0);
     controls.update();
 
     const animate = () => {
