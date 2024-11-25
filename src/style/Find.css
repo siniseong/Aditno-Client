@@ -1,0 +1,58 @@
+.register-button {
+    text-align: left;
+    padding: 50px 0 0 300px;
+    margin-bottom: -40px;
+  }
+  
+  .register-link {
+    text-decoration: none;
+    color: #333;
+    font-size: 1.1rem;
+    font-weight: 500;
+  }
+  
+  .writer-info {
+    font-size: 0.8rem;
+    color: #666;
+  }
+  
+  .modal-con {
+    max-width: 700px;
+    width: 100%;
+  }
+  
+  #modal-b {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .modal-content {
+    flex: 1;
+  }
+  
+  #title {
+    font-size: 36px;
+    margin-bottom: 5px;
+  }
+  
+  .writer {
+    font-size: 0.9rem;
+    color: #666;
+    margin-bottom: 20px;
+  }
+  
+  #img-tag {
+    margin-left: 40px;
+  }
+  
+  .img {
+    max-width: 260px;
+    max-height: 280px;
+    object-fit: contain;
+    border-radius: 13px;
+  }
+  
+  .close {
+    cursor: pointer;
+  }
