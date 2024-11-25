@@ -11,15 +11,17 @@ function Lost() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const token = localStorage.getItem('Authorization'); // 토큰 가져오기
+        const token = localStorage.getItem('Authorization'); 
         const response = await fetch('http://3.37.99.30:8080/lookingfor', {
           method: 'GET',
           headers: {
-            'Authorization': `Bearer ${token}`, // 토큰 포함
+            'Authorization': `Bearer ${token}`, 
             'Content-Type': 'application/json',
           },
         });
+        
         const data = await response.json();
+        console.log('API 응답 데이터:', data); 
         
         const formattedData = data.map(item => ({
           id: item.id.toString(),
@@ -27,7 +29,7 @@ function Lost() {
           info: item.detail,
           location: item.location,
           tags: [item.location],
-          image: "./images/picture.jpg",
+          image: item.img || "./images/picture.jpg", 
           imageText: "이미지가 존재하지 않습니다.",
           moreinfo: item.detail
         }));
