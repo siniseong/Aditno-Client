@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Header from './Header';
-import '../style.css';
+import '../style/FindLost.css';
 
 function Lost() {
   const [modalVisible, setModalVisible] = useState(false);
@@ -92,46 +92,26 @@ function Lost() {
       </main>
       {modalVisible && selectedItem && (
         <div id="modalBg" className="modal" onClick={closeModal}>
-          <div className="modal-con" onClick={e => e.stopPropagation()}>
-            <span className="close" onClick={closeModal}>&times;</span>
+          <div className="modal-con" onClick={(e) => e.stopPropagation()}>
             <div id="modal-b">
-              <div id="img-tag">
-                <img 
-                  src={selectedItem.image} 
-                  alt={selectedItem.imageText} 
-                  className="img" 
-                  style={{ 
-                    maxWidth: '400px',
-                    maxHeight: '400px',
-                    objectFit: 'contain'
-                  }} 
-                />
-                <div className="tags">
-                  {selectedItem.tags.map(tag => (
-                    <div 
-                      className="tag" 
-                      key={tag}
-                      style={{
-                        minWidth: '120px',
-                        maxWidth: '200px',
-                        padding: '5px 15px',
-                        borderRadius: '20px',
-                        backgroundColor: '#6184CA',
-                        color: 'white',
-                        margin: '5px',
-                        display: 'inline-block',
-                        textAlign: 'center'
-                      }}
-                    >
-                      <h6 style={{ margin: 0 }}>{tag}</h6>
-                    </div>
-                  ))}
-                </div>
+              <div className="modal-content">
+                <h4 id="title">{selectedItem.title}</h4>
+                <p className="writer">등록자: {selectedItem.writer}</p>
+                <p id="more">잃어버린 지역</p>
+                <p id="moreinfo">{selectedItem.location}</p>
+                <p id="more-detail">세부 설명</p>
+                <p id="detailinfo">{selectedItem.detail}</p>
               </div>
-              <h4 id="title">{selectedItem.title} <span style={{ fontSize: '0.8rem', color: '#666' }}>등록자: {selectedItem.writer}</span></h4>
-              <p id="info">{selectedItem.info}</p>
-              <p id="more">세부 설명</p>
-              <p id="moreinfo">{selectedItem.moreinfo}</p>
+              <div id="img-tag">
+                <img
+                  src={selectedItem.image}
+                  alt={selectedItem.imageText}
+                  className="img"
+                />
+              </div>
+            </div>
+            <div className="modal-buttons">
+              <button className="modal-button">찾았어요</button>
             </div>
           </div>
         </div>

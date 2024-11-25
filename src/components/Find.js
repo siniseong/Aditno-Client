@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Header from './Header';
-import '../style/Find.css';
+import '../style/FindLost.css';
 
 function Find() {
   const [modalVisible, setModalVisible] = useState(false);
