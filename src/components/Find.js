@@ -43,7 +43,7 @@ function Find() {
           title: item.title,
           info: item.detail,
           tags: [item.location, item.time],
-          image: "./images/picture.jpg",  
+          image: item.img,
           imageText: "이미지가 존재하지 않습니다.",
           moreinfo: item.detail
         }));
