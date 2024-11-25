@@ -45,7 +45,8 @@ function Find() {
           tags: [item.location, item.time],
           image: item.img,
           imageText: "이미지가 존재하지 않습니다.",
-          moreinfo: item.detail
+          moreinfo: item.detail,
+          writer: item.writer
         }));
         
         setItems(formattedData);
@@ -88,7 +89,7 @@ function Find() {
           {items.map(item => (
             <div key={item.id} className="container-l-f" onClick={() => openModal(item)}>
               <div className="info">
-                <h4>{item.title}</h4>
+                <h4>{item.title} <span style={{ fontSize: '0.8rem', color: '#666' }}>(등록자: {item.writer})  </span></h4>
                 <p>{item.info}</p>
                 <div className="tags">
                   {item.tags.map(tag => <div className="tag" key={tag}><h6>{tag}</h6></div>)}
@@ -139,7 +140,7 @@ function Find() {
                   ))}
                 </div>
               </div>
-              <h4 id="title">{selectedItem.title}</h4>
+              <h4 id="title">{selectedItem.title} <span style={{ fontSize: '0.8rem', color: '#666' }}>등록자: {selectedItem.writer}</span></h4>
               <p id="info">{selectedItem.info}</p>
               <p id="more">세부 설명</p>
               <p id="moreinfo">{selectedItem.moreinfo}</p>
