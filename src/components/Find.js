@@ -43,10 +43,12 @@ function Find() {
           id: item.id.toString(),
           title: item.title,
           info: item.detail,
+          location: item.location,
+          time: item.time,
+          detail: item.detail,
           tags: [item.location, item.time],
           image: item.img,
           imageText: '이미지가 존재하지 않습니다.',
-          moreinfo: item.detail,
           writer: item.writer,
         }));
 
@@ -121,8 +123,12 @@ function Find() {
               <div className="modal-content">
                 <h4 id="title">{selectedItem.title}</h4>
                 <p className="writer">등록자: {selectedItem.writer}</p>
-                <p id="more">세부 설명</p>
-                <p id="moreinfo">{selectedItem.moreinfo}</p>
+                <p id="more">찾은 지역</p>
+                <p id="moreinfo">{selectedItem.location}</p>
+                <p id="more-time">찾은 시간</p>
+                <p id="timeinfo">{selectedItem.time}</p>
+                <p id="more-detail">세부 설명</p>
+                <p id="detailinfo">{selectedItem.detail}</p>
               </div>
               <div id="img-tag">
                 <img
