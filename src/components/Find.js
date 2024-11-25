@@ -138,6 +138,9 @@ function Find() {
                 />
               </div>
             </div>
+            <div className="modal-buttons">
+              <button className="modal-button">내꺼에요</button>
+            </div>
           </div>
         </div>
       )}

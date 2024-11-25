@@ -45,13 +45,12 @@
     margin-left: 10px;
   }
   
-
   .img {
     max-width: 180px;
     max-height: 180px;
     object-fit: contain;
     border-radius: 13px;
-    transform: translate(80px, -90px);
+    transform: translate(50px, -50px); 
   }
   
   .close {
@@ -106,17 +105,28 @@
     cursor: pointer;
   }
   
-  #more-detail {
-    font-size: 24px;
-    font-weight: 600;
-    margin-bottom: 10px;
-    margin-left: 10px;
+  .modal-buttons {
+    display: flex;
+    justify-content: center;
+    position: absolute;
+    bottom: 20px; 
+    left: 50%; 
+    transform: translateX(-50%); 
   }
   
-  #detailinfo {
+  .modal-button {
+    width: 560px;
+    height: 60px;
+    background-color: #6184CA;
+    color: white;
     font-size: 20px;
-    color: #333;
-    line-height: 1.5;
-    white-space: pre-wrap;
-    margin-left: 10px;
+    font-weight: bold;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    text-align: center;
+    line-height: 50px; 
+    margin-bottom: 40px;
   }
+  
+  
