@@ -117,7 +117,6 @@ function Find() {
       {modalVisible && selectedItem && (
         <div id="modalBg" className="modal" onClick={closeModal}>
           <div className="modal-con" onClick={(e) => e.stopPropagation()}>
-            <span className="close" onClick={closeModal}>&times;</span>
             <div id="modal-b">
               <div className="modal-content">
                 <h4 id="title">{selectedItem.title}</h4>
