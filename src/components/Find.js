@@ -91,17 +91,21 @@ function Find() {
         },
       });
 
-      if (!response.ok) {
-        if (response.status === 401) {
-          console.log('401 에러 발생: 인증에 실패했습니다.');
-          return;
-        }
+      const responseData = await response.json();
+      console.log('PUT 요청 응답:', responseData);
+
+      if (response.ok) {
+        const updatedItems = items.map(item => 
+          item.id === selectedItem.id 
+            ? { ...item, isClaimed: true }
+            : item
+        );
+        setItems(updatedItems);
+        alert('신청이 완료되었습니다.');
+        closeModal();
+      } else {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
-
-      alert('신청이 완료되었습니다.');
-      closeModal();
-      fetchData();
 
     } catch (error) {
       console.error('Error marking as mine:', error);
