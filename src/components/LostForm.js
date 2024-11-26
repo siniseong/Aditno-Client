@@ -11,7 +11,8 @@ function LostForm() {
     title: '',
     location: '',
     detail: '',
-    time: ''
+    time: '',
+    img1: null
   });
 
   const handleInputChange = (e) => {
@@ -54,14 +55,17 @@ function LostForm() {
   };
 
   const handleFile = (file) => {
-    if (file && file.type.startsWith('image/')) {
+    if (file) {
+      setFormData(prev => ({
+        ...prev,
+        img1: file
+      }));
+
       const reader = new FileReader();
       reader.onloadend = () => {
         setImagePreview(reader.result);
       };
       reader.readAsDataURL(file);
-    } else {
-      alert('이미지 파일만 업로드 가능합니다.');
     }
   };
 
@@ -72,21 +76,27 @@ function LostForm() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     
-    if (!formData.title || !formData.location || !formData.detail || !formData.time) {
+    if (!formData.title || !formData.location || !formData.detail || !formData.time || !formData.img1) {
       alert('모든 필드를 입력해주세요.');
       return;
     }
 
-    const token = localStorage.getItem('Authorization'); // 토큰 가져오기
+    const token = localStorage.getItem('Authorization');
+    
+    const formDataToSend = new FormData();
+    formDataToSend.append('title', formData.title);
+    formDataToSend.append('location', formData.location);
+    formDataToSend.append('detail', formData.detail);
+    formDataToSend.append('time', formData.time);
+    formDataToSend.append('img1', formData.img1);
 
     try {
       const response = await fetch('http://3.37.99.30:8080/lookingfor/add', {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`, // 토큰 포함
+          'Authorization': `Bearer ${token}`,
         },
-        body: JSON.stringify({ ...formData, tags }) // 태그도 포함
+        body: formDataToSend
       });
 
       if (!response.ok) {
