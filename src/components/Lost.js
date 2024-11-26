@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Header from './Header';
-import '../style/FindLost.css';
+import '../style/Lost.css';
 
 function Lost() {
   const [modalVisible, setModalVisible] = useState(false);
@@ -100,7 +100,7 @@ function Lost() {
                 <p id="more">잃어버린 지역</p>
                 <p id="moreinfo">{selectedItem.location}</p>
                 <p id="more-detail">세부 설명</p>
-                <p id="detailinfo">{selectedItem.detail}</p>
+                <p id="detailinfo">{selectedItem.moreinfo}</p>
               </div>
               <div id="img-tag">
                 <img
@@ -109,9 +109,6 @@ function Lost() {
                   className="img"
                 />
               </div>
-            </div>
-            <div className="modal-buttons">
-              <button className="modal-button">찾았어요</button>
             </div>
           </div>
         </div>
