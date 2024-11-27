@@ -135,4 +135,21 @@
     font-size: 14px;
   }
   
+  .tag {
+    display: inline-block;
+    margin-right: 8px;
+  }
+  
+  .tag h6 {
+    color: white;
+    margin: 0;
+    padding: 6px 13px 5px;
+    border-radius: 15px;
+    background-color: #6184CA;  
+  }
+  
+  .container-l-f[data-has-recipient='true'] .tag h6 {
+    background-color: #D9D9D9; 
+  }
+  
   
