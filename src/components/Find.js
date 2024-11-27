@@ -7,6 +7,7 @@ function Find() {
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null);
   const [items, setItems] = useState([]);
+  const [claimedItem, setClaimedItem] = useState(null);
 
   const fetchData = async () => {
     try {
@@ -36,7 +37,7 @@ function Find() {
       }
 
       const data = await response.json();
-      console.log('서버에서 받아온 데이터:', data);
+      console.log('API 응답 데이터:', data);
 
       const formattedData = data.map((item) => ({
         id: item.id.toString(),
@@ -49,8 +50,10 @@ function Find() {
         image: item.img,
         imageText: '이미지가 존재하지 않습니다.',
         writer: item.writer,
+        recipient: item.recipient
       }));
 
+      console.log('변환된 데이터:', formattedData);
       setItems(formattedData);
     } catch (error) {
       console.error('Error fetching data:', error);
@@ -97,7 +100,7 @@ function Find() {
       if (response.ok) {
         const updatedItems = items.map(item => 
           item.id === selectedItem.id 
-            ? { ...item, isClaimed: true }
+            ? { ...item, recipient: responseData.recipient }
             : item
         );
         setItems(updatedItems);
@@ -112,6 +115,12 @@ function Find() {
       alert('처리 중 오류가 발생했습니다.');
     }
   };
+
+  const sortedItems = [...items].sort((a, b) => {
+    if (a.recipient && !b.recipient) return 1;
+    if (!a.recipient && b.recipient) return -1;
+    return 0;
+  });
 
   return (
     <div>
@@ -135,27 +144,39 @@ function Find() {
           </div>
         </div>
         <div id="find-list">
-          {items.map((item) => (
-            <div key={item.id} className="container-l-f" onClick={() => openModal(item)}>
-              <div className="info">
-                <h4>
-                  {item.title}{' '}
-                  <span className="writer-info">(등록자: {item.writer})</span>
-                </h4>
-                <p>{item.info}</p>
-                <div className="tags">
-                  {item.tags.map((tag) => (
-                    <div className="tag" key={tag}>
-                      <h6>{tag}</h6>
-                    </div>
-                  ))}
+          {sortedItems.map((item) => {
+            console.log(`Item ${item.id}의 recipient:`, item.recipient);
+            return (
+              <div 
+                key={item.id} 
+                className="container-l-f"
+                onClick={() => {
+                  console.log('클릭한 아이템의 recipient:', item.recipient);
+                  if (item.recipient === null) {
+                    openModal(item);
+                  }
+                }}
+              >
+                <div className="info">
+                  <h4>
+                    {item.title}{' '}
+                    <span className="writer-info">(등록자: {item.writer})</span>
+                  </h4>
+                  <p>{item.info}</p>
+                  <div className="tags">
+                    {item.tags.map((tag) => (
+                      <div className="tag" key={tag}>
+                        <h6>{tag}</h6>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+                <div className="info-img">
+                  <img src={item.image} alt={item.imageText} />
                 </div>
               </div>
-              <div className="info-img">
-                <img src={item.image} alt={item.imageText} />
-              </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </main>
       {modalVisible && selectedItem && (
