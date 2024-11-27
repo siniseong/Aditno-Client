@@ -144,39 +144,40 @@ function Find() {
           </div>
         </div>
         <div id="find-list">
-          {sortedItems.map((item) => {
-            console.log(`Item ${item.id}의 recipient:`, item.recipient);
-            return (
-              <div 
-                key={item.id} 
-                className="container-l-f"
-                onClick={() => {
-                  console.log('클릭한 아이템의 recipient:', item.recipient);
-                  if (item.recipient === null) {
-                    openModal(item);
-                  }
-                }}
-              >
-                <div className="info">
-                  <h4>
-                    {item.title}{' '}
-                    <span className="writer-info">(등록자: {item.writer})</span>
-                  </h4>
-                  <p>{item.info}</p>
-                  <div className="tags">
-                    {item.tags.map((tag) => (
-                      <div className="tag" key={tag}>
-                        <h6>{tag}</h6>
-                      </div>
-                    ))}
-                  </div>
+          {sortedItems.map((item) => (
+            <div 
+              key={item.id} 
+              className="container-l-f"
+              onClick={() => {
+                if (item.recipient === null) {
+                  openModal(item);
+                }
+              }}
+            >
+              <div className="info">
+                <h4 style={{ color: item.recipient ? '#999999' : 'inherit' }}>
+                  {item.title}{' '}
+                  <span className="writer-info" style={{ color: item.recipient ? '#999999' : '#666' }}>
+                    (등록자: {item.writer})
+                  </span>
+                </h4>
+                <p style={{ color: item.recipient ? '#999999' : 'inherit' }}>{item.info}</p>
+                <div className="tags">
+                  {item.tags.map((tag) => (
+                    <div className="tag" key={tag}>
+                      <h6>{tag}</h6>
+                    </div>
+                  ))}
                 </div>
-                <div className="info-img">
-                  <img src={item.image} alt={item.imageText} />
-                </div>
+                {item.recipient && (
+                  <p className="recipient-info">수령자: {item.recipient}</p>
+                )}
               </div>
-            );
-          })}
+              <div className="info-img">
+                <img src={item.image} alt={item.imageText} />
+              </div>
+            </div>
+          ))}
         </div>
       </main>
       {modalVisible && selectedItem && (
