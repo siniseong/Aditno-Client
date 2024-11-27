@@ -4,8 +4,6 @@ import Header from './Header';
 
 function LostForm() {
   const navigate = useNavigate();
-  const [tags, setTags] = useState([]);
-  const [tagInput, setTagInput] = useState('');
   const [imagePreview, setImagePreview] = useState('');
   const [formData, setFormData] = useState({
     title: '',
@@ -21,20 +19,6 @@ function LostForm() {
       ...prev,
       [name]: value
     }));
-  };
-
-  const handleKeyDown = (e) => {
-    if (e.key === 'Enter') {
-      e.preventDefault();
-      if (tagInput.trim() !== '') {
-        setTags([...tags, tagInput.trim()]);
-        setTagInput('');
-      }
-    }
-  };
-
-  const removeTag = (indexToRemove) => {
-    setTags(tags.filter((_, index) => index !== indexToRemove));
   };
 
   const handleDragOver = (e) => {
@@ -128,55 +112,29 @@ function LostForm() {
             />
           </div>
           <div className="form">
-            <h3><span className="pink">2. </span>소제목을 입력해주세요.</h3>
+            <h3><span className="pink">2. </span>잃어버린 장소를 입력해주세요.</h3>
             <input 
               className="textbox" 
               type="text" 
               name="location"
               value={formData.location}
               onChange={handleInputChange}
-              placeholder="ex) 에어팟을 찾았는데 포켓몬 피카츄 스티커 붙여져있어요." 
+              placeholder="ex) SRC 1층" 
             />
           </div>
           <div className="form">
-            <h3><span className="pink">3. </span>키워드를 입력해주세요.</h3>
+            <h3><span className="pink">3. </span>잃어버린 시간을 입력해주세요.</h3>
             <input 
-              id="tagsIn" 
               className="textbox" 
               type="text" 
-              placeholder="키워드를 입력하고 Enter를 눌러주세요" 
-              value={tagInput}
-              onChange={(e) => setTagInput(e.target.value)}
-              onKeyDown={handleKeyDown}
-            />
-            {tags.length > 0 && (
-              <div id="tags" className="tags">
-                {tags.map((tag, index) => (
-                  <div key={index} style={tagStyle}>
-                    <span style={tagTextStyle}>{tag}</span>
-                    <span 
-                      onClick={() => removeTag(index)}
-                      style={closeButtonStyle}
-                    >
-                      ×
-                    </span>
-                  </div>
-                ))}
-              </div>
-            )}
-          </div>
-          <div className="form">
-            <h3><span className="pink">4. </span>날짜를 입력해주세요.</h3>
-            <input 
-              className="textbox" 
-              type="date" 
               name="time"
               value={formData.time}
               onChange={handleInputChange}
+              placeholder="ex) 7교시 쉬는 시간" 
             />
           </div>
           <div className="form">
-            <h3><span className="pink">5. </span>세부 설명을 입력해주세요.</h3>
+            <h3><span className="pink">4. </span>세부 설명을 입력해주세요.</h3>
             <input 
               className="textbox" 
               type="text" 
@@ -187,7 +145,7 @@ function LostForm() {
             />
           </div>
           <div className="form">
-            <h3><span className="pink">6. </span>사진을 첨부해주세요.</h3>
+            <h3><span className="pink">5. </span>사진을 첨부해주세요.</h3>
             <div 
               id="drop-area" 
               style={dropAreaStyle}
@@ -226,30 +184,6 @@ function LostForm() {
     </div>
   );
 }
-
-const tagStyle = {
-  display: 'flex',
-  alignItems: 'center',
-  backgroundColor: '#6184CA',
-  color: '#FFF',
-  padding: '8px 12px',
-  borderRadius: '20px',
-  margin: '4px',
-};
-
-const tagTextStyle = {
-  margin: 0,
-  fontSize: '14px'
-};
-
-const closeButtonStyle = {
-  color: '#FFF',
-  cursor: 'pointer',
-  fontSize: '18px',
-  fontWeight: 'bold',
-  marginLeft: '8px',
-  display: 'inline-block'
-};
 
 const dropAreaStyle = {
   width: '100%',

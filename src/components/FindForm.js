@@ -140,13 +140,14 @@ function FindForm() {
             />
           </div>
           <div className="form">
-            <h3><span className="pink">3. </span>날짜를 입력해주세요.</h3>
+            <h3><span className="pink">3. </span>찾은 시간을 입력해주세요.</h3>
             <input 
               className="textbox" 
-              type="date" 
+              type="text" 
               name="time"
               value={formData.time}
               onChange={handleInputChange}
+              placeholder="ex) 7교시 쉬는시간" 
             />
           </div>
           <div className="form">
