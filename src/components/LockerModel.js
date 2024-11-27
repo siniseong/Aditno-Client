@@ -1,12 +1,67 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader';
 
-function LockerModel({ status1, status2, servoStatus }) {
+function LockerModel({ status1, status2 }) {
+  const [servoData, setServoData] = useState([]);
+
   const mountRef = useRef(null);
+  const sceneRef = useRef({
+    scene: null,
+    camera: null,
+    renderer: null,
+    group1: null,
+    group2: null,
+    controls: null
+  });
+
+  const rotationRef = useRef({
+    door1: 0,
+    door2: 0,
+    targetDoor1: 0,
+    targetDoor2: 0
+  });
 
   useEffect(() => {
+    let isMounted = true;
+    
+    const fetchServoStatus = async () => {
+      try {
+        const response = await fetch('/servo/status');
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        const data = await response.json();
+        if (isMounted) {
+          setServoData(prevData => {
+            if (JSON.stringify(prevData) !== JSON.stringify(data)) {
+              return data;
+            }
+            return prevData;
+          });
+        }
+      } catch (error) {
+        console.error('Error fetching servo status:', error);
+      }
+    };
+
+    fetchServoStatus();
+    
+    const intervalId = setInterval(fetchServoStatus, 5000);
+
+    return () => {
+      isMounted = false;
+      clearInterval(intervalId);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!servoData || !Array.isArray(servoData) || servoData.length < 2) {
+      console.warn('Invalid servo data');
+      return;
+    }
+
     const currentMount = mountRef.current;
     const scene = new THREE.Scene();
     scene.background = null;
@@ -69,7 +124,7 @@ function LockerModel({ status1, status2, servoStatus }) {
           if (child instanceof THREE.Mesh) {
             child.material = new THREE.MeshPhongMaterial({
               map: woodTexture,
-              color: Number(servoStatus) === 0 ? 0xFFFFFF : 0xE0E0E0,
+              color: Number(servoData?.[0]?.status || "0") === 0 ? 0xFFFFFF : 0xE0E0E0,
               metalness: 0.2,
               roughness: 0.8,
               side: THREE.DoubleSide,
@@ -100,7 +155,7 @@ function LockerModel({ status1, status2, servoStatus }) {
           if (child instanceof THREE.Mesh) {
             child.material = new THREE.MeshPhongMaterial({
               map: woodTexture,
-              color: Number(servoStatus) === 0 ? 0xFFFFFF : 0xE0E0E0,
+              color: Number(servoData?.[0]?.status || "0") === 0 ? 0xFFFFFF : 0xE0E0E0,
               metalness: 0.2,
               roughness: 0.8,
               side: THREE.DoubleSide,
@@ -159,7 +214,7 @@ function LockerModel({ status1, status2, servoStatus }) {
     );
 
     group1.position.set(17, -80, 16);
-    group1.rotation.set(0, Math.PI / 2 * (1 - servoStatus), 0);
+    group1.rotation.set(0, Math.PI / 2 * (1 - Number(servoData?.[0]?.status || "0")), 0);
     scene.add(group1);
 
     const group2 = new THREE.Group();
@@ -197,7 +252,7 @@ function LockerModel({ status1, status2, servoStatus }) {
     );
 
     group2.position.set(17, -40, 16);
-    group2.rotation.set(0, Math.PI / 2 * (1 - servoStatus), 0);
+    group2.rotation.set(0, Math.PI / 2 * (1 - Number(servoData?.[1]?.status || "0")), 0);
     scene.add(group2);
 
     const controls = new OrbitControls(camera, renderer.domElement);
@@ -211,20 +266,28 @@ function LockerModel({ status1, status2, servoStatus }) {
     controls.target.set(0, -100, 0);
     controls.update();
 
+    sceneRef.current = {
+      scene,
+      camera,
+      renderer,
+      group1,
+      group2,
+      controls
+    };
+
     const animate = () => {
       requestAnimationFrame(animate);
       controls.update();
 
-      group1.rotation.y = THREE.MathUtils.lerp(
-        group1.rotation.y, 
-        Math.PI / 2 * servoStatus, 
-        0.1
-      );
-      group2.rotation.y = THREE.MathUtils.lerp(
-        group2.rotation.y, 
-        Math.PI / 2 * servoStatus, 
-        0.1
-      );
+      if (group1) {
+        rotationRef.current.door1 += (rotationRef.current.targetDoor1 - rotationRef.current.door1) * 0.1;
+        group1.rotation.y = rotationRef.current.door1;
+      }
+      if (group2) {
+        rotationRef.current.door2 += (rotationRef.current.targetDoor2 - rotationRef.current.door2) * 0.1;
+        group2.rotation.y = rotationRef.current.door2;
+      }
+
       renderer.render(scene, camera);
     };
     animate();
@@ -243,7 +306,27 @@ function LockerModel({ status1, status2, servoStatus }) {
 
       renderer.dispose();
     };
-  }, [servoStatus, status1, status2]);
+  }, [servoData]);
+
+  useEffect(() => {
+    if (!sceneRef.current.scene) return;
+
+    rotationRef.current.targetDoor1 = Math.PI / 2 * Number(servoData?.[0]?.status || "0");
+    rotationRef.current.targetDoor2 = Math.PI / 2 * Number(servoData?.[1]?.status || "0");
+
+    sceneRef.current.scene.traverse((object) => {
+      if (object instanceof THREE.Mesh) {
+        if (object.material) {
+          if (object.parent === sceneRef.current.group1) {
+            object.material.emissive.setHex(Number(status2) === 0 ? 0x00FF00 : 0xFF0000);
+          }
+          if (object.parent === sceneRef.current.group2) {
+            object.material.emissive.setHex(Number(status1) === 0 ? 0x00FF00 : 0xFF0000);
+          }
+        }
+      }
+    });
+  }, [status1, status2, servoData]);
 
   return (
     <div style={{ 
