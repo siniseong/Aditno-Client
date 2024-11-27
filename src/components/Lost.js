@@ -80,7 +80,7 @@ function Lost() {
 
   const handleCommentSubmit = async () => {
     if (!newComment.trim() || !selectedItem) {
-      console.log('댓글이 비어있거나 선택된 아이템이 없음');
+      console.log('댓글을 입력해주세요.');
       return;
     }
 
@@ -169,7 +169,7 @@ function Lost() {
                 </div>
                 
                 <div className="comments-section">
-                  <p id="more-detail">댓글</p>
+                  <p style={{ marginLeft: '-10px', fontSize: '24px', fontWeight: '600', marginTop: '20px'   }}>댓글</p>
                   <div className="comment-list">
                     {Array.isArray(comments) && comments.map((comment, index) => (
                       <div key={index} className="comment-item">
