@@ -19,16 +19,27 @@
   .modal-con {
     max-width: 600px;
     width: 100%;
+    background-color: white;
+    padding: 30px;
+    border-radius: 15px;
+    position: relative;
+    max-height: 80vh;
+    display: flex;
+    flex-direction: column;
   }
   
   #modal-b {
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    align-items: flex-start;
+    overflow-y: auto;
+    flex: 1;
   }
   
   .modal-content {
     flex: 1;
+    padding-right: 20px;
+    overflow-y: auto;
   }
   
   #title {
@@ -121,12 +132,66 @@
     color: white;
     font-size: 20px;
     font-weight: bold;
-    border: none;
+    border: none; 
     border-radius: 10px;
     cursor: pointer;
     text-align: center;
     line-height: 50px; 
     margin-bottom: 40px;
+  }
+  
+  .comments-section {
+    margin: 10px;
+    padding: 10px;
+  }
+  
+  .comment-input {
+    position: sticky;
+    bottom: 0;
+    width: 100%;
+    display: flex;
+    gap: 10px;
+    padding: 15px;
+    background-color: white;
+    margin-top: 20px;
+    margin-bottom: -30px;
+  }
+  
+  .comment-input input {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 20px;
+    font-size: 16px;
+  }
+  
+  .comment-input button {
+    padding: 10px 20px;
+    background-color: #6184CA;
+    color: white;
+    border: none;
+    border-radius: 7px;
+    cursor: pointer;
+    font-weight: bold;
+  }
+  
+  .comment-item {
+    background-color: #6184CA; 
+    color: white;
+    padding: 10px 18px;
+    border-radius: 13px;
+    margin-bottom: 10px;
+    width: 100%;
+    box-sizing: border-box;
+    margin-left: -10px;
+  }
+  
+  .comment-content {
+    font-size: 14px;
+    line-height: 1.4;
+    margin: 0;
+    word-break: break-word;
+    color: white; 
   }
   
   

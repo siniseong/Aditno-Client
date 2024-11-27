@@ -7,6 +7,8 @@ function Lost() {
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null);
   const [items, setItems] = useState([]);
+  const [comments, setComments] = useState([]);
+  const [newComment, setNewComment] = useState('');
 
   useEffect(() => {
     const fetchData = async () => {
@@ -55,6 +57,15 @@ function Lost() {
     setSelectedItem(null);
   };
 
+  const handleCommentSubmit = () => {
+    const newCommentObj = {
+      content: newComment,
+      timestamp: new Date().toISOString()
+    };
+    setComments([...comments, newCommentObj]);
+    setNewComment('');
+  };
+
   return (
     <div>
       <Header />
@@ -101,6 +112,17 @@ function Lost() {
                 <p id="moreinfo">{selectedItem.location}</p>
                 <p id="more-detail">세부 설명</p>
                 <p id="detailinfo">{selectedItem.moreinfo}</p>
+                
+                <p id="more-detail">댓글</p>
+                <div className="comments-section">
+                  <div className="comment-list">
+                    {comments.map((comment, index) => (
+                      <div key={index} className="comment-item">
+                        <p className="comment-content">{comment.content}</p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
               </div>
               <div id="img-tag">
                 <img
@@ -109,6 +131,15 @@ function Lost() {
                   className="img"
                 />
               </div>
+            </div>
+            <div className="comment-input">
+              <input
+                type="text"
+                value={newComment}
+                onChange={(e) => setNewComment(e.target.value)}
+                placeholder="댓글을 입력하세요..."
+              />
+              <button onClick={handleCommentSubmit}>작성</button>
             </div>
           </div>
         </div>
