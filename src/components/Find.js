@@ -148,8 +148,11 @@ function Find() {
             <div 
               key={item.id} 
               className="container-l-f"
+              data-has-recipient={item.recipient !== null}
               onClick={() => {
-                if (item.recipient === null) {
+                if (item.recipient) {
+                  alert('이미 수령자가 있습니다.');
+                } else {
                   openModal(item);
                 }
               }}
