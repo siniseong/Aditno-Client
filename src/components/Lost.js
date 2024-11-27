@@ -46,10 +46,31 @@ function Lost() {
     fetchData();
   }, []);
 
-  const openModal = (item) => {
+  const openModal = async (item) => {
     console.log('Clicked item:', item);
     setSelectedItem(item);
     setModalVisible(true);
+
+    try {
+      const token = localStorage.getItem('Authorization');
+      const response = await fetch(`http://3.37.99.30:8080/lookingfor/${item.id}`, {
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        console.log('게시물 상세 데이터:', data);
+        if (data && data.comments) {
+          setComments(data.comments);
+        }
+      }
+    } catch (error) {
+      console.error('게시물 상세 정보 가져오기 실패:', error);
+    }
   };
 
   const closeModal = () => {
@@ -57,13 +78,45 @@ function Lost() {
     setSelectedItem(null);
   };
 
-  const handleCommentSubmit = () => {
-    const newCommentObj = {
-      content: newComment,
-      timestamp: new Date().toISOString()
-    };
-    setComments([...comments, newCommentObj]);
-    setNewComment('');
+  const handleCommentSubmit = async () => {
+    if (!newComment.trim() || !selectedItem) {
+      console.log('댓글이 비어있거나 선택된 아이템이 없음');
+      return;
+    }
+
+    try {
+      const token = localStorage.getItem('Authorization');
+      const response = await fetch(`http://3.37.99.30:8080/lookingfor/${selectedItem.id}/comment`, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ content: newComment })
+      });
+
+      if (response.ok) {
+        const commentsResponse = await fetch(`http://3.37.99.30:8080/lookingfor/${selectedItem.id}`, {
+          method: 'GET',
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json',
+          },
+        });
+
+        if (commentsResponse.ok) {
+          const commentsData = await commentsResponse.json();
+          console.log('업데이트된 전체 댓글 목록:', commentsData);
+          if (commentsData && commentsData.comments) {
+            setComments(commentsData.comments);
+          }
+        }
+        
+        setNewComment('');
+      }
+    } catch (error) {
+      console.error('댓글 작성 중 오류 발생:', error);
+    }
   };
 
   return (
@@ -106,18 +159,21 @@ function Lost() {
           <div className="modal-con" onClick={(e) => e.stopPropagation()}>
             <div id="modal-b">
               <div className="modal-content">
-                <h4 id="title">{selectedItem.title}</h4>
-                <p className="writer">등록자: {selectedItem.writer}</p>
-                <p id="more">잃어버린 지역</p>
-                <p id="moreinfo">{selectedItem.location}</p>
-                <p id="more-detail">세부 설명</p>
-                <p id="detailinfo">{selectedItem.moreinfo}</p>
+                <div className="modal-header">
+                  <h4 id="title">{selectedItem.title}</h4>
+                  <p className="writer">등록자: {selectedItem.writer}</p>
+                  <p id="more">잃어버린 지역</p>
+                  <p id="moreinfo">{selectedItem.location}</p>
+                  <p id="more-detail">세부 설명</p>
+                  <p id="detailinfo">{selectedItem.moreinfo}</p>
+                </div>
                 
-                <p id="more-detail">댓글</p>
                 <div className="comments-section">
+                  <p id="more-detail">댓글</p>
                   <div className="comment-list">
-                    {comments.map((comment, index) => (
+                    {Array.isArray(comments) && comments.map((comment, index) => (
                       <div key={index} className="comment-item">
+                        <p className="comment-writer">작성자: {comment.writer}</p>
                         <p className="comment-content">{comment.content}</p>
                       </div>
                     ))}
