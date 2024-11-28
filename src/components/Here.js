@@ -134,62 +134,6 @@ function Here() {
                 servoStatus={servoData.status} 
               />
             </div>
-            
-            <div style={{
-              display: 'flex',
-              justifyContent: 'center',
-              width: '100%',
-              marginTop: '20px',
-              gap: '50px'
-            }}>
-              <div style={{
-                flex: 1,
-                maxWidth: '500px',
-                textAlign: 'center',
-                padding: '0 10px'
-              }}>
-                <p style={{ fontSize: '40px' }}>
-                  {Number(sensorData[0].status) === 0 
-                    ? "1번 사물함이 비어있습니다."
-                    : "1번 사물함에 물건이 있습니다."
-                  }
-                </p>
-                <div style={statusTextStyle}>
-                  {`status: ${sensorData[0].status} (${Number(sensorData[0].status) === 0 
-                    ? "1번 사물함이 비어있습니다"
-                    : "1번 사물함에 물건이 존재합니다"
-                  })`}
-                </div>
-              </div>
-
-              <div style={{
-                flex: 1,
-                maxWidth: '500px',
-                textAlign: 'center',
-                padding: '0 10px'
-              }}>
-                <p style={{ fontSize: '40px' }}>
-                  {Number(sensorData[1].status) === 0 
-                    ? "2번 사물함이 비어있습니다."
-                    : "2번 사물함에 물건이 있습니다."
-                  }
-                </p>
-                <div style={statusTextStyle}>
-                  {`status: ${sensorData[1].status} (${Number(sensorData[1].status) === 0 
-                    ? "2번 사물함이 비어있습니다"
-                    : "2번 사물함에 물건이 존재합니다"
-                  })`}
-                </div>
-              </div>
-            </div>
-
-            <div style={{
-              ...statusTextStyle,
-              textAlign: 'center',
-              marginTop: '30px'
-            }}>
-              {`문 상태: ${Number(servoData.status) === 0 ? '닫힘' : '열림'}`}
-            </div>
           </div>
         )
       )}
