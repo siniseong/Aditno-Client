@@ -91,7 +91,7 @@ function Header() {
             {isLoggedIn ? (
               <h6 onClick={handleLogout} style={{ cursor: 'pointer' }}>로그아웃</h6>
             ) : (
-              <a href={`https://auth.bssm.app/oauth?clientId=7858c499&redirectURI=${encodeURIComponent('http://localhost:3000/got')}`}>
+              <a href={`https://auth.bssm.app/oauth?clientId=7858c499&redirectURI=${encodeURIComponent('https://aditno-client.vercel.app//got')}`}>
                 <h6>로그인</h6>
               </a>
             )}
